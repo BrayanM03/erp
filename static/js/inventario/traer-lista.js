@@ -1,25 +1,29 @@
 $(document).ready(function () {
 
-    let sucursal_id = getParameterByName("store_id")
+    let sucursal_id = getParameterByName("store_id");
+    let categoria = getParameterByName("categoria");
+    let subcategoria = getParameterByName("subcategoria");
     tabla = $('#example').DataTable({
         processing: true,
         serverSide: true,
         ajax:{
-            url: '../servidor/inventario/server_processing.php?sucursal_id=' + sucursal_id,
+            url: '../servidor/inventario/server_processing.php?sucursal_id=' + sucursal_id + '&categoria=' + categoria + '&subcategoria=' + subcategoria,
             dataType: 'json'
         },
         responsive: true,
         order: [0, 'desc'],
-        columns:  [
+        columns:  [ 
             { data:0, title:'#' },
-            { data:1, title:'Proveedor' },
-            { data:2, title:'Tonelaje' },
-            { data:3, title:'Marca' },
-            { data:4, title:'Modelo' },
+            { data:1, title:'Codigo' },
+            { data:2, title:'Descripción' },
             { data:5, title:'Costo' },
             { data:6, title:'Precio' },
             { data:7, title:'Stock' },
             { data:8, title:'Estatus' },
+            { data:14, title:'Fecha' },
+            { data:15, title:'Sat' },
+            { data:12, title:'Imagen', render: ()=>{ 
+              return `<img src="./img/productos/NA.jpg" style="width:60px; border-radius:5px; border:1px solid 	#B4B2B1">`;}},
             { data:null, title:'Opciones', render: function(row){
                 return `
                 <div class='row'>

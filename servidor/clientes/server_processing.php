@@ -53,13 +53,8 @@ $columns = array(
 );
 
 // SQL server connection information
-$sql_details = array(
-	'user' => 'root',
-	'pass' => '',
-	'db'   => 'erp',
-	'host' => 'localhost'
-);
-
+include_once '../database/credenciales.php';
+$sql_details = $credenciales_db;
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * If you just want to use the basic configuration for DataTables with PHP

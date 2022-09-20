@@ -1,10 +1,11 @@
 
+ 
  main_content = $('#main-content');
 
 
 function clickNuevoProducto(){
 
-    main_content.empty().load(`vistas/inventario/nuevo-aire.php`, {
+    main_content.empty().load(`vistas/inventario/agregar-producto-nuevo.php`, {
         postdata: false,
         proveedor : "",
         tonelaje: "",
@@ -12,7 +13,70 @@ function clickNuevoProducto(){
         marca : "",
         cantidad : "",
         costo : "",
-        precio : ""});
+        precio : ""}, function (param) {
+          $("#categoria").change(()=>{
+            let categoria = $("#categoria").val();
+
+            switch (categoria) {
+                case "computacion":
+                        $("#subcategoria").prop("disabled", false).empty().css("background", "#FFF").css("color", "#99A3BA").append(`
+                        <option value="almacenamiento">Almacenamiento</option>
+                        <option value="almacenamiento">Accesorios</option>
+                        <option value="almacenamiento">Energia</option>
+                        <option value="almacenamiento">Equipos</option>
+                        <option value="almacenamiento">Gaming</option>
+                        <option value="almacenamiento">Mantenimiento</option>
+                        <option value="almacenamiento">Software</option>
+        
+                        `)
+                    break;
+        
+                    case "seguridad":
+                        $("#subcategoria").prop("disabled", false).empty().css("background", "#FFF").css("color", "#99A3BA").append(`
+                        <option value="cctv">CCTV</option>
+                        <option value="accesorios">Accesorios</option>
+                        <option value="control_acceso">Control de acceso</option>
+                        `)
+                    break;
+        
+                    case "impresion":
+                        $("#subcategoria").prop("disabled", false).empty().css("background", "#FFF").css("color", "#99A3BA").append(`
+                        <option value="consumibles">Consumibles</option>
+                        <option value="impresoras">Impresoras</option>
+                        `)
+                    break; 
+                    
+                    case "redes":
+                        $("#subcategoria").prop("disabled", false).empty().css("background", "#FFF").css("color", "#99A3BA").append(`
+                        <option value="cableado_estructurado">Cableado estructurado</option>
+                        <option value="conectividad">Conectividad</option>
+                        <option value="herramientas">Herramientas</option>
+                        <option value="telefonia">Telefonia</option>
+                        `)
+                    break;
+                    case "punto_de_venta":
+                        $("#subcategoria").prop("disabled", false).empty().css("background", "#FFF").css("color", "#99A3BA").append(`
+                        <option value="cajones">Cajones</option>
+                        <option value="impresoras_termicas">Impresoras termicas</option>
+                        <option value="escaners">Escaners</option>
+                        `)
+                    break;
+            
+                default:
+                $("#subcategoria").prop("disabled", true).empty().css("background", "#E7E3E3").css("color", "gray").append(`
+                        <option value="null">Elige una categoria primero</option>
+                        `)
+                    break;
+            }
+
+            
+        })
+
+        ejecutarDropzoneJS();
+        
+          });
+
+        
 }
 
 function clickEditarProducto(e) {
@@ -174,5 +238,52 @@ function getParameterByName(name) {
     results = regex.exec(location.search);
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
   }
+
+function ejecutarDropzoneJS(){
+
+  console.log("great");
+
+  let myDropzone = new Dropzone("#my-great-dropzone",{ 
+    url: "agregar-producto.php",
+    addRemoveLinks: true,
+    dictRemoveFile: "Remover",
+    maxFilesSize:2,
+    maxFiles: 1,
+    acceptedFiles: ".jpg, .jpeg",
+
+   });
+
+  /* Dropzone.options.myGreatDropzone = { // camelized version of the `id`
+    paramName: "file", // The name that will be used to transfer the file
+    maxFilesize: 3, // MB
+    maxFiles: 1,
+    acceptedFiles: ".jpg, .jpeg",
+    uploadMultiple: false, 
+    parallelUploads: 10,
+    addRemoveLinks: true,
+    dictRemoveFile: "Remover",
+    init: function () { 
+
+      this.on("success", function(file, response) {  
+       
+      });  
+
+    },
+  }; */
+
+  myDropzone.options.dictMaxFilesExceeded = "No puedes subir más de una imagen";
+
+  let arrayImages = []
+  myDropzone.on('addedfile', function(file) {
+    arrayImages.push(file);
+  })
+
+  myDropzone.on('removedfile', function(file) {
+    let i = arrayImages.indexOf(file);
+    arrayImages.splice(i, 1);
+  })
+
+
+}  
 
 

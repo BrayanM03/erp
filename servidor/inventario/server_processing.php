@@ -19,11 +19,13 @@
  */
 
 // DB table to use
-$table = 'inventario';
+$table = 'inventario_computacion';
 
 // Table's primary key
 $primaryKey = 'id';
 $sucursal_id = $_GET['sucursal_id'];
+$categoria = $_GET['categoria'];
+$subcategoria = $_GET['subcategoria'];
 
 
 // Array of database columns which should be read and sent back to DataTables.
@@ -32,15 +34,19 @@ $sucursal_id = $_GET['sucursal_id'];
 // indexes
 $columns = array(
 	array( 'db' => 'id', 'dt' => 0 ),
-	array( 'db' => 'proveedor',  'dt' => 1 ),
-	array( 'db' => 'tonelaje', 'dt' => 2 ),
+	array( 'db' => 'codigo',  'dt' => 1 ),
+	array( 'db' => 'descripcion', 'dt' => 2 ),
 	array( 'db' => 'marca', 'dt' => 3 ),
 	array( 'db' => 'modelo', 'dt' => 4 ),
 	array( 'db' => 'costo',  'dt' => 5 ),
 	array( 'db' => 'precio',   'dt' => 6 ),
 	array( 'db' => 'stock',   'dt' => 7 ),
 	array( 'db' => 'estatus',   'dt' => 8 ),
-	array( 'db' => 'sucursal',   'dt' => 9 ),
+	array( 'db' => 'categoria',   'dt' => 10 ),
+	array( 'db' => 'subcategoria',   'dt' => 11 ),
+	array( 'db' => 'imagen',   'dt' => 12 ),
+	array( 'db' => 'fecha_ingreso',   'dt' => 14 ),
+	array( 'db' => 'sat_key',   'dt' => 15 )
 /* 	array(
 		'db'        => 'start_date',
 		'dt'        => 4,
@@ -57,14 +63,10 @@ $columns = array(
 	) */
 );
 
-// SQL server connection information
-$sql_details = array(
-	'user' => 'root',
-	'pass' => '',
-	'db'   => 'erp',
-	'host' => 'localhost'
-);
 
+// SQL server connection information
+include_once '../database/credenciales.php';
+$sql_details = $credenciales_db;
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * If you just want to use the basic configuration for DataTables with PHP
@@ -74,7 +76,7 @@ $sql_details = array(
 require( '../database/ssp.class.php' );
 
 echo json_encode(
-	SSP::complex( $_GET, $sql_details, $table, $primaryKey, $columns, null, "sucursal = '$sucursal_id'")
+	SSP::complex( $_GET, $sql_details, $table, $primaryKey, $columns, null,"subcategoria = '$subcategoria'")
 );
 
 

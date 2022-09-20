@@ -20,7 +20,7 @@ if (empty($_SESSION["id"])) {
 
     <link rel="canonical" href="https://demo-basic.adminkit.io/pages-blank.html" />
 
-    <title>Inventario clima | AireEx manager</title>
+    <title>Agregar producto | ERP manager</title>
 
     <link href="css/app.css" rel="stylesheet">
     <link href="css/estilos-agregar-producto.css" rel="stylesheet">
@@ -28,8 +28,92 @@ if (empty($_SESSION["id"])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+
 
 </head>
+
+<style>
+      .buttom-advanced-options{
+        color: rgb(157, 157, 138);
+        text-decoration: none;
+        font-size: 12xp;
+    }
+
+    :root {
+
+--input-color: #99A3BA;
+--input-border: #CDD9ED;
+--input-background: #fff;
+--input-placeholder: #CBD1DC;
+
+--input-border-focus: #4570f0;
+
+--group-color: var(--input-color);
+--group-border: var(--input-border);
+--group-background: #EEF4FF;
+--group-background-disabled: #999a9e;
+
+
+--group-color-focus: #fff;
+--group-border-focus: var(--input-border-focus);
+--group-background-focus: #678EFE;
+
+}
+
+.dropzone{
+        border: 2px dashed #c3c3c3;
+        padding: 20px;
+       
+    }
+
+    .icon i{
+        font-size: 3em;
+        text-align: center;
+        color: #696767;
+        background-color: #dfdddd;
+        height: 100px;
+        width: 100px;
+        margin-bottom: 20px;
+        border-radius: 50%;
+        padding: 25px 20px; 
+    }
+
+    .note{
+        color: #40405b;
+    }
+
+.form-field {
+  display: block;
+  width: 100%;
+  padding: 8px 16px;
+  line-height: 25px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: inherit;
+  border-radius: 6px;
+  -webkit-appearance: none;
+  color: var(--input-color);
+  border: 1px solid var(--input-border);
+  background: var(--input-background);
+  transition: border 0.3s ease;
+}
+.form-field::-moz-placeholder {
+  color: var(--input-placeholder);
+}
+.form-field:-ms-input-placeholder {
+  color: var(--input-placeholder);
+
+}
+.form-field::placeholder {
+  color: var(--input-placeholder);
+
+}
+.form-field:focus {
+  outline: none;
+  border-color: var(--input-border-focus);
+}
+</style>
 
 <body>
     <div class="wrapper">
@@ -95,6 +179,9 @@ if (empty($_SESSION["id"])) {
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+
 
     <!-- Mis scripts -->
     <script src="js/inventario/opciones.js"></script>
@@ -119,6 +206,7 @@ $( "#card-check" ).hover(
     $("#imagen-checklist").removeClass( "animate__pulse animate__infinite infinite" );
   }
 );
+
     </script>
 </body>
 

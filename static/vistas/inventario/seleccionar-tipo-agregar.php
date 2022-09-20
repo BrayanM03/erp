@@ -24,19 +24,22 @@
 
                 <div class="row justify-content-center">
 
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-5 mt-3">
 
-                        <div class="option-card" id="card-aire" onclick="clickNuevoProducto()">
-                            <img src="./img/air-conditioner.png" class="animate__animated" id="imagen-aire" alt="imagen-aire" style="width:120px;">
+                        <div class="option-card text-center" id="card-aire" onclick="clickNuevoProducto()">
+<!--                             <img src="./img/new_item.gif" class="animate__animated" id="imagen-aire" alt="imagen-aire" style="width:120px;">
+ -->                            <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_3WsNKy.json" background="transparent"  speed="1"  style="width: 250px; height: 250px;" loop autoplay></lottie-player>
+
                             <p class="mt-3">Agregar producto nuevo al catalogo</p>
 
                         </div>
 
                     </div>
 
-                    <div class="col-12 col-md-4">
-                        <div class="option-card" id="card-check" onclick="clickagregarSeries()">
-                            <img src="./img/checklist.png" class="animate__animated" id="imagen-checklist" alt="imagen-cheklist" style="width:120px;">
+                    <div class="col-12 col-md-5 mt-3">
+                        <div class="option-card text-center" id="card-check" onclick="clickagregarSeries()">
+                            <!-- <img src="./img/existing_item.gif" class="animate__animated" id="imagen-checklist" alt="imagen-cheklist" style="width:120px;"> -->
+                            <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_i3mq3e9v.json" background="transparent"  speed="1"  style="width: 250px; height: 250px;" loop autoplay></lottie-player>
                             <p class="mt-3">Agregar series a producto ya existente</p>
 
                         </div>

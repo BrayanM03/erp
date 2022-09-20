@@ -20,7 +20,7 @@ if (empty($_SESSION["id"])) {
 
     <link rel="canonical" href="https://demo-basic.adminkit.io/pages-blank.html" />
 
-    <title>Inventario clima | AireEx manager</title>
+    <title>Inventario | ERP manager</title>
 
     <link href="css/app.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -46,7 +46,7 @@ if (empty($_SESSION["id"])) {
 
                     <div class="row mb-2">
                         <div class="col-12 col-md-6">
-                            <h1 class="h3 mb-3">Inventario de aires <?php echo $_GET['name'] ?></h1>
+                            <h1 class="h3 mb-3">Inventario <?php echo $_GET['name'] ?></h1>
                         </div>
                         <div class="col-12 col-md-6 text-end">
                             <a href="agregar-producto.php?store_id=<?php echo $_GET['store_id'] ?>&name=<?php echo $_GET['name'] ?>"><div class="btn btn-success">Agregar nuevo</div></a>
@@ -59,7 +59,7 @@ if (empty($_SESSION["id"])) {
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h5 class="card-title mb-0">Aires en el catalogo</h5>
+                                    <h5 class="card-title mb-0">Inventario de <?php echo $_GET['subcategoria'] ?></h1></h5>
                                 </div>
                                 <div class="card-body">
                                     <div class="row">

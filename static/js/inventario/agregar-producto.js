@@ -11,7 +11,7 @@ function agregarProducto(){
 
 
     let hasCantidadInt = Number.isInteger(cantidad);
-
+ 
      if(modelo == ""){
         Toast.fire({
             icon: 'error',
