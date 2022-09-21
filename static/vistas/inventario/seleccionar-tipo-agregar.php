@@ -10,9 +10,9 @@
             <div class="card-header text-center">
 
                 <div class="col-12 col-md-1" id="backbtn_area">
-                    <div class="btn">
+                   <!--  <div class="btn">
                         <a href="inventario.php?store_id=<?php echo $_GET['store_id'] ?>&name=<?php echo $_GET['name'] ?>"><i class="fa-solid fa-circle-left fa-2xl icono" style="color:#E5BE01"></i></a>
-                    </div>
+                    </div> -->
 
                 </div>
                 <div class="col-12 col-md-11">
@@ -40,7 +40,7 @@
                         <div class="option-card text-center" id="card-check" onclick="clickagregarSeries()">
                             <!-- <img src="./img/existing_item.gif" class="animate__animated" id="imagen-checklist" alt="imagen-cheklist" style="width:120px;"> -->
                             <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_i3mq3e9v.json" background="transparent"  speed="1"  style="width: 250px; height: 250px;" loop autoplay></lottie-player>
-                            <p class="mt-3">Agregar series a producto ya existente</p>
+                            <p class="mt-3">Agregar a un producto ya agregado</p>
 
                         </div>
                     </div>

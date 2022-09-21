@@ -28,24 +28,19 @@
             
                             <div class="row mb-3">
                                 <div class="col-12 col-md-6">
-                                    <label for="proveedor">Codigo</label>
+                                    <label for="codigo">Codigo</label>
                                     <!-- <select name="proveedor" class="form-control" id="proveedor"></select> -->
-                                    <input name="proveedor" class="form-field" id="proveedor" placeholder="Escribe un codigo interno">
+                                    <input name="codigo" value="P00005" class="form-field" id="codigo" placeholder="Escribe un codigo interno">
+                                    <div class="col-12 text-end"><small class="d-none" valid="false" id="small_response">Codigo en uso</small></div>
                                 </div>
             
-                                <div class="col-12 col-md-6">
-                                    <label for="tonelaje">¿Es un producto serializable?</label><br>
-                                    <!-- Default checked -->
-                                    <input id="chkToggle1" type="checkbox" data-toggle="toggle" data-on="Si" data-off="No">
-
-
-                                </div>
+                               
                             </div>
 
                             <div class="row mb-3">
                                 <div class="col-12 col-md-6">
                                     <label for="modelo">Categoria</label>
-                                    <select class="form-field" placeholder="Escribe un modelo" name="categoria" id="categoria">
+                                    <select class="form-field" name="categoria" id="categoria">
                                         <option value="null">Selecciona una categoria</option>
                                         <option value="computacion">Computación</option>
                                         <option value="seguridad">Seguridad</option>
@@ -59,8 +54,8 @@
             
                                 <div class="col-12 col-md-6">
                                     <label for="marca">Subcategoria</label>
-                                    <select class="form-field" placeholder="Escribe una marca" style="background: rgb(231, 227, 227); color: gray" name="subcategoria" id="subcategoria" disabled>
-                                        <option value="computacion">Primero elige una categoria</option>
+                                    <select class="form-field" style="background: rgb(231, 227, 227); color: gray" name="subcategoria" id="subcategoria" disabled>
+                                        <option value="null">Primero elige una categoria</option>
                                     </select>
                                 </div>
                             </div>
@@ -70,7 +65,7 @@
                             <div class="row mb-3">
                                 <div class="col-12 col-md-6">
                                     <label for="cantidad">Cantidad</label>
-                                    <input class="form-field" type="number" placeholder="0" name="cantidad" id="cantidad">
+                                    <input class="form-field" value="5" type="number" placeholder="0" name="cantidad" id="cantidad">
                                 </div>
             
                                 <div class="col-12 col-md-6">
@@ -85,11 +80,18 @@
                             <div class="row mb-3">
                                 <div class="col-12 col-md-6">
                                     <label for="costo">Costo</label>
-                                    <input class="form-field" placeholder="0.00" name="costo" id="costo" type="number">
+                                    <input class="form-field" value="500" placeholder="0.00" name="costo" id="costo" type="number">
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <label for="precio">Precio</label>
-                                    <input class="form-field" placeholder="0.00" name="precio" id="precio" type="number">
+                                    <input class="form-field" value="700" placeholder="0.00" name="precio" id="precio" type="number">
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-12 col-md-12">
+                                    <label for="descripcion">Descripción</label>
+                                    <textarea autocapitalize="sentences" class="form-field" placeholder="Escribe una descripción del producto" id="descripcion">SSD 120GB Adata</textarea>    
                                 </div>
                             </div>
 
@@ -142,7 +144,7 @@
                                                         </div>
                                                         
                                                     <h4>Elige una foto para tu producto</h4>
-                                                    <span class="note">No hay archivos seleccionados</span>
+                                                    <span class="note">No hay archivos seleccionados (Max. 3)</span>
                                                     </div>
                                                     <div class="fallback">
                                                     <input type="file" name="file">

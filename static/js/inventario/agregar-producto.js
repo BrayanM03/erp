@@ -1,28 +1,45 @@
 function agregarProducto(){
 
-    let proveedor = document.getElementById("proveedor").value
-    let tonelaje= document.getElementById("tonelaje").value
+    console.log( arrayImages);
+
+    let codigo = document.getElementById("codigo").value
+    let valid_codigo = document.getElementById("small_response").getAttribute("valid")
+  
+    let categoria = document.getElementById("categoria").value
+    let subcategoria = document.getElementById("subcategoria").value
+    let cantidad = +document.getElementById("cantidad").value //Aqui pongo el mas para hacer la cantidad un "number"
+    let sucursal = document.getElementById("sucursal").value
+    let costo = document.getElementById("costo").value
+    let precio = document.getElementById("precio").value
+    let descripcion = document.getElementById("descripcion").value
+
+     //Opcionales
      let modelo = document.getElementById("modelo").value
-     let marca = document.getElementById("marca").value
-     let cantidad = +document.getElementById("cantidad").value //Aqui pongo el mas para hacer la cantidad un "number"
-     let costo = document.getElementById("costo").value
-     let precio = document.getElementById("precio").value
-     let sucursal = document.getElementById("sucursal").value
+     let marca = document.getElementById("marca").value    
+     let upc = document.getElementById("upc").value
+     let sat = document.getElementById("sat").value
+
+
 
 
     let hasCantidadInt = Number.isInteger(cantidad);
  
-     if(modelo == ""){
+    if(valid_codigo == "false"){
         Toast.fire({
             icon: 'error',
-            title: 'Ingresa un modelo'
+            title: 'Hay un problema con el codigo'
+          })
+     }else if(categoria == "null"){
+        Toast.fire({
+            icon: 'error',
+            title: 'Selecciona una categoria'
           })
      }
 
-     else if(marca == ""){
+     else if(subcategoria == "null"){
         Toast.fire({
             icon: 'error',
-            title: 'Ingresa una marca'
+            title: 'Selecciona una categoria'
           })
     }
 
@@ -57,44 +74,66 @@ function agregarProducto(){
     else{
 
      datosForm = new FormData();
-     datosForm.append("proveedor", proveedor);
-     datosForm.append("tonelaje", tonelaje); 
-     datosForm.append("modelo", modelo);
-     datosForm.append("marca", marca); 
+     datosForm.append("codigo", codigo);
+     datosForm.append("categoria", categoria); 
+     datosForm.append("subcategoria", subcategoria); 
      datosForm.append("cantidad", cantidad);
+     datosForm.append("sucursal", sucursal);
      datosForm.append("costo", costo);
      datosForm.append("precio", precio);
-     datosForm.append("costo", costo);
-     datosForm.append("sucursal", sucursal);
-
-     if(cantidad !== 0) {
-       
-        let card_title = $("#title-card");
-        card_body = $("#card-body");
-        card_title.empty().text("Ingresa los numeros de serie por la cantidad que ingresaste");
-        $("#backbtn_area").empty().append(`
-        <div class="btn" onclick="RegresarAtras(2)">
-        <i class="fa-solid fa-circle-left fa-2xl icono" style="color:#E5BE01"></i>
-        `)
-        card_body.empty().load(`vistas/inventario/agregar-serie.php`,{
-            cantidad: cantidad
-        })
+     datosForm.append("descripcion", descripcion);
+     
+     datosForm.append("modelo", modelo);
+     datosForm.append("marca", marca);
+     datosForm.append("upc", upc);
+     datosForm.append("sat", sat);
 
      
-          
-     }else if(cantidad == 0){
-        Swal.fire({
-            icon: 'question',
-            html: `<p>Ingresaste 0 en la cantidad, significa que no vas a registar series del producto, ¿Quieres finalizar el proceso?<p>`,
-            showCancelButton: true,
-            confirmButtonText: 'Finalizar',
-            cancelButtonText: 'Cancelar'
-        }).then(function (response){
-            if(response.isConfirmed){
-                terminarRegistro(1);
+     $.ajax({
+        type: "POST",
+        url: "../servidor/inventario/registrar-producto.php",
+        processData: false,
+        contentType: false,
+        data: datosForm,
+        dataType: "JSON",
+        success: function (response) {
+            if(response.status == true){
+
+                //Agregando imagenes
+
+                if(arrayImages.length > 0){
+                    let imgData = new FormData();
+              
+
+                    for (let i = 0; i < arrayImages.length; i++) {
+                        
+
+                        const element = arrayImages[i];
+                        imgData.append(`file${i}`, element)
+                        
+                    }
+
+                    fetch(`../servidor/inventario/subir-imagen.php?product_id=${response.id}`, {
+                        method: "POST",
+                        body: imgData
+                    }).then(res => res.json()).then(data =>{
+                        console.log(data);
+                    })
+
+                }
+
+           
+                Swal.fire({
+                    icon: "success",
+                    html: "<b>"+ response.message + "</b>",
+                    allowOutsideClick: false,
+                    confirmButtonText: "Entendido"
+                }).then((response)=>{
+                    location.reload();
+                })
             }
-        })
-     }
+        }
+    });
      
      
 
@@ -102,6 +141,7 @@ function agregarProducto(){
      
 
      
+
 }
 
 const Toast = Swal.mixin({
@@ -117,114 +157,49 @@ const Toast = Swal.mixin({
   })
 
 
-  function setInputSeries(cantidad, counter){
+async function validarCodigo(codigo) {
 
-    for(let step = 0; step < cantidad; step++){
-        console.log(step);
-        $("#contenedor-series").append(`
-            <div class="row mb-3">
-                <div class="col-12 col-md-6">
-                    <input class="form-control" id="serie_condensador_${counter}" type="text" placeholder="Serie ${counter}">
-                </div>
-            
-                <div class="col-12 col-md-6">
-                <input class="form-control" id="serie_evaporador_${counter}" type="text" placeholder="Serie ${counter}">
-                </div>
-            </div>
-        `)
-    
-        counter++;
-    }
-  }
+    if(codigo == "" || codigo.length == 0){
 
-  //Temrinando proceso de registro
-  function terminarRegistro(type){
+        $("#codigo").css("border", "1px solid red")
+        $("#small_response").css("color", "red").removeClass("d-none").attr("valid", "false").text("Agrega un codigo")
 
-    if(type == 1){
-        datosForm.append("has_series", 0);
-        $.ajax({
-            type: "POST",
-            url: "../servidor/inventario/registrar-clima-serie.php",
-            processData: false,
-            contentType: false,
-            data: datosForm,
-           
-            success: function (response) {
-                if(response == 1){
-               
-                    Swal.fire({
-                        icon: "success",
-                        html: "<b>¡Se agrego un nuevo producto al inventario!</b>",
-                        allowOutsideClick: false,
-                        confirmButtonText: "Entendido"
-                    }).then((response)=>{
-                        location.reload();
-                    })
-                }
-            }
-        });
+    }else if (/\s/.test(codigo)) {
+        $("#codigo").css("border", "1px solid red")
+        $("#small_response").css("color", "red").removeClass("d-none").attr("valid", "false").text("No puede haber espacios en el codigo")
+    }else{
+        let data = {"codigo": codigo};
 
-    }else if(type == 2){
-
-        
-        
-           let series_form_evap = document.getElementsByClassName('evap-input')
-           let series_form_cond = document.getElementsByClassName('cond-input')
-           let fecha_compra = document.getElementById('fecha_compra').value;
-       
-           flag =0;
-
-           series = [];
-           for (let item of series_form_cond) {
-            series.push([item.value])            
+        console.log(data);
+         
+        await fetch('../servidor/inventario/validar-codigo.php',{
+         method: 'POST',
+         body: JSON.stringify(data),
+         headers:{
+             'Accept': 'application/json',
+             'Content-Type': 'application/json'
            }
-
-
-           for (let item of series_form_evap) {
-            series[flag].push(item.value)
-            flag++;
-            
-           }
-
-           series_json = JSON.stringify(series);
-
-           datosForm.append("series", series_json);
-           datosForm.append("has_series", 1);
-
-           if(fecha_compra == ""){
-            Toast.fire({
-                icon: 'error',
-                title: 'Ingresa una fecha'
-              })
-        }else{
-
-            datosForm.append("fecha_compra", fecha_compra);
-          
-
-            $.ajax({
-              type: "POST",
-              url: "../servidor/inventario/registrar-clima-serie.php",
-              processData: false,
-              contentType: false,
-              data: datosForm,
-             
-              success: function (response) {
-                  if(response == 1){
-                      Swal.fire({
-                          icon: "success",
-                          html: "<b>¡Se agrego un nuevo producto al inventario!</b>",
-                          allowOutsideClick: false,
-                          confirmButtonText: "Entendido"
-                      }).then((response)=>{
-                          location.reload();
-                      })
-                  }
-              }
-          });
-        }
+        })
+       .then(response => response.json())
+       .then(data => {
+         console.log(data)
+         if(data.status == true){
+             $("#codigo").css("border", "1px solid green")
+             $("#small_response").css("color", "green").removeClass("d-none").attr("valid", "true").text("Codigo disponible")
+         }else if(data.status ==false){
+             $("#codigo").css("border", "1px solid red")
+             $("#small_response").css("color", "red").removeClass("d-none").attr("valid", "false").text("Codigo en uso")
+         }
         
+     });
 
     }
 
-  }
+   
+
+}  
+
+
+
+
   

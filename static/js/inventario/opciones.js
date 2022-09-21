@@ -1,6 +1,7 @@
 
  
  main_content = $('#main-content');
+ let arrayImages = []
 
 
 function clickNuevoProducto(){
@@ -14,6 +15,8 @@ function clickNuevoProducto(){
         cantidad : "",
         costo : "",
         precio : ""}, function (param) {
+
+          //Agregando eventos
           $("#categoria").change(()=>{
             let categoria = $("#categoria").val();
 
@@ -67,12 +70,16 @@ function clickNuevoProducto(){
                         <option value="null">Elige una categoria primero</option>
                         `)
                     break;
-            }
+            }})
 
-            
-        })
+            $("#codigo").keyup(function(){
+                let codigo = $("#codigo").val()
+                validarCodigo(codigo)
+            })
 
         ejecutarDropzoneJS();
+
+
         
           });
 
@@ -245,10 +252,12 @@ function ejecutarDropzoneJS(){
 
   let myDropzone = new Dropzone("#my-great-dropzone",{ 
     url: "agregar-producto.php",
+    paramName: "file",
     addRemoveLinks: true,
     dictRemoveFile: "Remover",
     maxFilesSize:2,
-    maxFiles: 1,
+    maxFiles: 3,
+    parallelUploads: 10,
     acceptedFiles: ".jpg, .jpeg",
 
    });
@@ -271,9 +280,9 @@ function ejecutarDropzoneJS(){
     },
   }; */
 
-  myDropzone.options.dictMaxFilesExceeded = "No puedes subir más de una imagen";
+  myDropzone.options.dictMaxFilesExceeded = "No puedes subir más 3 imagenes";
 
-  let arrayImages = []
+
   myDropzone.on('addedfile', function(file) {
     arrayImages.push(file);
   })

@@ -74,7 +74,7 @@
 
                             <li class="sidebar-item accordion-button" data-bs-toggle="collapse" data-bs-target="#collapse<?php echo $row["id"] ?>" aria-expanded="true" aria-controls="collapse<?php echo $row["id"] ?>">
                                 <a class="sidebar-link" href="#">
-                                    <i class="align-middle" data-feather="map-pin"></i> <span class="align-middle"><?php echo $row["nombre"] ?></span>
+                                    <i class="align-middle" data-feather="map-pin"></i> <span class="align-middle"><?php echo $row["name"] ?></span>
                                 </a>
                             </li>
 

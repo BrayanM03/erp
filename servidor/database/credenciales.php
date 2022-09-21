@@ -2,7 +2,7 @@
 
 $credenciales_db = array(
 	'user' => 'root',
-	'pass' => 'root',
+	'pass' => '',
 	'db'   => 'erp',
 	'host' => 'localhost'
 );
