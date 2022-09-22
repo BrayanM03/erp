@@ -10,7 +10,10 @@ function agregarProducto(){
     let cantidad = +document.getElementById("cantidad").value //Aqui pongo el mas para hacer la cantidad un "number"
     let sucursal = document.getElementById("sucursal").value
     let costo = document.getElementById("costo").value
-    let precio = document.getElementById("precio").value
+    let precio = document.getElementById("precio-base").value
+    let tasa = document.getElementById("impuesto").value
+    let impuesto = $("#impuesto").attr("impuesto")
+    let precio_total = document.getElementById("precio-total").value
     let descripcion = document.getElementById("descripcion").value
 
      //Opcionales
@@ -81,6 +84,9 @@ function agregarProducto(){
      datosForm.append("sucursal", sucursal);
      datosForm.append("costo", costo);
      datosForm.append("precio", precio);
+     datosForm.append("tasa", tasa);
+     datosForm.append("impuesto", impuesto);
+     datosForm.append("precio_total", precio_total);
      datosForm.append("descripcion", descripcion);
      
      datosForm.append("modelo", modelo);
@@ -198,6 +204,19 @@ async function validarCodigo(codigo) {
    
 
 }  
+
+
+/* function generarCodigo(){
+    $.ajax({
+        type: "POST",
+        url: "../servidor/inventario/generar-codigo",
+        data: "data",
+        dataType: "dataType",
+        success: function (response) {
+            
+        }
+    });
+} */
 
 
 

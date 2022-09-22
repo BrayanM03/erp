@@ -127,7 +127,21 @@ if (empty($_SESSION["id"])) {
     <script src="js/inventario/traer-lista.js"></script>
     <!-- <script src="js/clientes/traer-lista.js"></script>
     <script src="js/clientes/eliminar-cliente.js"></script>
+
  -->
+    <script>
+        $(".sidebar-link").hover(
+  function () {
+    var hijo =  $(this).children(":first")
+    hijo.addClass('fa-beat');
+    
+  }, 
+  function () {
+    var hijo =  $(this).children(":first")
+     hijo.removeClass('fa-beat');
+  }
+  );
+    </script>
 </body>
 
 </html>

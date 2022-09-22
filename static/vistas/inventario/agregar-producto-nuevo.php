@@ -7,7 +7,7 @@
             </div>
             
             <div class="row justify-content-center">
-                <div class="col-12 col-md-8">
+                <div class="col-12 col-md-7">
                     <div class="card">
                         <div class="card-header text-center">
                             <div class="row">
@@ -28,11 +28,15 @@
             
                             <div class="row mb-3">
                                 <div class="col-12 col-md-6">
+                                    
                                     <label for="codigo">Codigo</label>
                                     <!-- <select name="proveedor" class="form-control" id="proveedor"></select> -->
                                     <input name="codigo" value="P00005" class="form-field" id="codigo" placeholder="Escribe un codigo interno">
                                     <div class="col-12 text-end"><small class="d-none" valid="false" id="small_response">Codigo en uso</small></div>
                                 </div>
+                                <!-- <div class="col-12 col-md-2 mt-4">
+                                    <div class="btn btn-info" onclick="generarCodigo()">Generar</div>
+                                </div> -->
             
                                
                             </div>
@@ -77,14 +81,43 @@
             
                             </div>
             
-                            <div class="row mb-3">
-                                <div class="col-12 col-md-6">
+                            <div class="row mb-3 justify-content-between">
+                                <div class="col-12 col-md-3">
                                     <label for="costo">Costo</label>
                                     <input class="form-field" value="500" placeholder="0.00" name="costo" id="costo" type="number">
                                 </div>
-                                <div class="col-12 col-md-6">
-                                    <label for="precio">Precio</label>
-                                    <input class="form-field" value="700" placeholder="0.00" name="precio" id="precio" type="number">
+                                <div class="col-4 col-md-3">
+                                    <label for="precio-base">Precio base</label>
+                                    <div class="row">
+                                     <div class="col-9 col-md-9">
+                                     <input class="form-field" value="700" placeholder="0.00" name="precio-base" id="precio-base" type="number">
+                                     </div>  
+                                     <div class="col-3 col-md-3">
+                                     <i class="fa-solid fa-plus mt-3" style="color:#20c997;"></i>
+                                     </div>  
+                                    </div>
+                                    
+                                </div>
+                                
+                                <div class="col-4 col-md-3">
+                                    <label for="impuesto">Impuesto</label>
+                                   
+                                    <div class="row">
+                                     <div class="col-9 col-md-9">
+                                     <select class="form-field" name="impuesto" id="impuesto" impuesto="">
+                                        <option value="0">Sin desglosar</option>
+                                        <option value="8">IVA 8%</option>
+                                        <option value="16">IVA 16%</option>
+                                    </select> 
+                                     </div>  
+                                     <div class="col-3 col-md-3">
+                                      <i class="fa-solid fa-equals fa-beat mt-3" style="color:#20c997;"></i>
+                                     </div>  
+                                    </div>   
+                                </div>
+                                <div class="col-4 col-md-3">
+                                    <label for="precio-total">Precio total</label>
+                                    <input class="form-field" value="700" placeholder="0.00" name="precio-total" id="precio-total" type="number">
                                 </div>
                             </div>
 

@@ -15,7 +15,7 @@
 
                 </div>
                 <div class="col-12 col-md-11">
-                <h5 class="card-title mb-0">Okey, ¿Quieres editar el aire o modificar series ya existentes?</h5>
+                <h5 class="card-title mb-0">Okey, ¿Quieres registrar un nuevo producto o ingresar nueva mercancia?</h5>
                 </div>
 
               

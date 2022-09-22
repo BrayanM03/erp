@@ -77,6 +77,29 @@ function clickNuevoProducto(){
                 validarCodigo(codigo)
             })
 
+            $("#precio-base").keyup(function(){
+              
+              let precio = precioTotal("base")
+              
+              $("#precio-total").val(precio)
+          })
+
+          $("#impuesto").change(()=>{
+
+            let precio = precioTotal("impuesto")
+            $("#precio-total").val(precio)
+          })
+
+          $("#precio-total").keyup(()=>{
+
+            let base = precioTotal("total")
+            $("#precio-base").val(base)
+          })
+
+          
+
+
+
         ejecutarDropzoneJS();
 
 
@@ -126,6 +149,9 @@ function clickagregarSeries(){
     main_content.empty().load(`vistas/inventario/ingresar-producto-existente.php`, function() {
         
         agregarEventos()
+        $("#producto").select2({
+          theme: "bootstrap",
+        })
       });
 
 }
@@ -294,5 +320,56 @@ function ejecutarDropzoneJS(){
 
 
 }  
+
+function precioTotal(origen) {
+  let precio_base = parseFloat(document.getElementById("precio-base").value)
+  let tasa = parseInt(document.getElementById("impuesto").value)
+  let precio_total = parseFloat(document.getElementById("precio-total").value)
+
+  switch (origen) {
+    case "base":
+      var impuesto = ((precio_base * tasa)/100) 
+      var impuesto_redondeado = Number.parseFloat(impuesto).toFixed(2); 
+      $("#impuesto").attr("impuesto", impuesto_redondeado) 
+      var response = precio_base + impuesto; 
+     
+      
+      break;
+
+      case "impuesto":
+      var impuesto = ((precio_base * tasa)/100)
+      var impuesto_redondeado = Number.parseFloat(impuesto).toFixed(2); 
+      $("#impuesto").attr("impuesto", impuesto_redondeado) 
+      var response = precio_base + impuesto; 
+      
+      break;
+
+      case "total":
+       if(tasa == 16){iva =1.16}else if(tasa == 8){ iva =1.08}else{ iva =0}   
+      var base = (precio_total / iva)
+      var impuesto = ((base * tasa)/100) 
+      var impuesto_redondeado = Number.parseFloat(impuesto).toFixed(2); 
+      $("#impuesto").attr("impuesto", impuesto_redondeado) 
+      var response = base; 
+ 
+      
+      break;
+  
+    default:
+      break;
+
+    
+  }
+  var respuesta = Number.parseFloat(response).toFixed(2); 
+
+  return respuesta;
+
+}
+
+function setSelect2(sucursal_id){
+
+  
+}
+
 
 

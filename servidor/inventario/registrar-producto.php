@@ -11,12 +11,15 @@ if ($_POST) {
     $sucursal = $_POST["sucursal"];
     $costo = $_POST["costo"];
     $precio = $_POST["precio"];
+    $tasa = $_POST["tasa"];
+    $impuesto = $_POST["impuesto"];
+    $precio_total = $_POST["precio_total"];
 
     $modelo = $_POST["modelo"] ?? null;
     $marca = $_POST["marca"] ?? null;
     $upc = $_POST["upc"] ?? null;
     $sat = $_POST["sat"] ?? null;
-    $estatus = "Activo";
+    $estatus = "Pendiente";
     $fecha_ingreso = date("Y-m-d");
     $path ="NA";
 
@@ -26,7 +29,10 @@ if ($_POST) {
                                          marca, 
                                          modelo, 
                                          costo,
-                                         precio,
+                                         precio_base,
+                                         tasa,
+                                         impuesto,
+                                         precio_total,
                                          stock,
                                          estatus,
                                          sucursal,
@@ -35,10 +41,10 @@ if ($_POST) {
                                          imagen,
                                          upc,
                                          fecha_ingreso,
-                                         sat_key) VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                                         sat_key) VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     $resp = $con->prepare($insercion);
    
-    $resp->execute([$codigo, $descripcion, $marca, $modelo, $costo, $precio, $cantidad, $estatus,
+    $resp->execute([$codigo, $descripcion, $marca, $modelo, $costo, $precio, $tasa, $impuesto, $precio_total, $cantidad, $estatus,
      $sucursal, $categoria, $subcategoria, $path, $upc, $fecha_ingreso, $sat]);
 
     $resp->closeCursor();

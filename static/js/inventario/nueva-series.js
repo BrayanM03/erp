@@ -10,8 +10,80 @@ function agregarEventos(params) {
       let id_sucursal = $(this).val();
       let indicador = "sucursal";
       let tabla_ref = "inventario";
+      $("#producto").prop("disabled", false);
+      $("#producto").select2({
+        theme: "bootstrap",
+        ajax: {
+          url: "../servidor/inventario/traer-datos-en-base-uno.php",
+          type: "post",
+          dataType: 'json',
+          delay: 250,
+    
+          data: function (params) {
+           
+           
+           return {
+             tabla: tabla_ref,
+             indicador: indicador,
+             id: id_sucursal,
+             input: params // search term
+             
+           };
+          },
+          processResults: function (data) {
+              return {
+                 results: data
+              }; 
+            },
+         
+          cache: true
+    
+       },
+        templateResult: formatResultProducts,
+        templateSelection: formatSelection
+      })
+    
+      function formatResultProducts(repo){
+        console.log(repo);
+        if(repo.id == "null"){
+          var $container = $(
+            `
+            <div class="row">
+              <div class="col-12 col-md-12">
+                <span id="${repo.id}">${repo.text}</span>
+              </div>
+            </div>`
+          
+        );
+        }else{
+          var $container = $(
+            `
+            <div class="row">
+              <div class="col-12 col-md-3">
+                 <img src="img/productos/P${repo.id}/P1.jpg" style="width:60px;border-radius:8px;">
+              </div>
+              <div class="col-12 col-md-9">
+                <span id="${repo.id}">${repo.text}</span>
+              </div>
+            </div>`
+          
+        );
+        }
+       
+      return $container
+      }
+    
+      function formatSelection(repo){
+        if(repo.id == "null"){
+          var response = repo.text
+        }else{
+          var response = repo.text
+        }
+    
+        return response
+      }
 
-      $.ajax({
+     /*  $.ajax({
         type: "POST",
         url: "../servidor/inventario/traer-datos-en-base-uno.php",
         data: { id: id_sucursal, tabla: tabla_ref, indicador: indicador },
@@ -24,15 +96,22 @@ function agregarEventos(params) {
               .append(`<option value="null">Selecciona un producto</select>`);
               setearForm(2);
             response.data.forEach((element) => {
+              /* $("#producto").attr("categoria", element.categoria)
+              $("#producto").attr("subcategoria", element.subcategoria)
+              $("#producto").attr("codigo", element.codigo)
+              $("#producto").attr("estatus", element.estatus)
+              $("#producto").attr("stock", element.stock)
+              $("#producto").attr("descripcion", element.descripcion)
+              $("#producto").attr("", element.categoria) 
               $("#producto").append(`
-                            <option value="${element.id}">${element.marca} ${element.modelo}</option>
+                            <option value="${element.id}">${element.descripcion}</option>
                         `);
             });
           } else {
              setearForm(1);
           }
         },
-      });
+      }); */
 
     } else {
       setearForm(1);

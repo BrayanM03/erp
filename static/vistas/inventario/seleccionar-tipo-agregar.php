@@ -16,7 +16,7 @@
 
                 </div>
                 <div class="col-12 col-md-11">
-                    <h5 class="card-title mb-0">Okey, ¿vamos a agregar un nuevo producto al catalogo o agregar series ya existentes?</h5>
+                    <h5 class="card-title mb-0">Okey, ¿Quieres registrar un nuevo producto o ingresar nueva mercancia?</h5>
                 </div>
             </div>
 
@@ -28,9 +28,9 @@
 
                         <div class="option-card text-center" id="card-aire" onclick="clickNuevoProducto()">
 <!--                             <img src="./img/new_item.gif" class="animate__animated" id="imagen-aire" alt="imagen-aire" style="width:120px;">
- -->                            <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_3WsNKy.json" background="transparent"  speed="1"  style="width: 250px; height: 250px;" loop autoplay></lottie-player>
+ -->                        <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_i3mq3e9v.json" background="transparent"  speed="1"  style="width: 250px; height: 250px;" loop autoplay></lottie-player>
 
-                            <p class="mt-3">Agregar producto nuevo al catalogo</p>
+                            <p class="mt-3">Registrar producto nuevo al catalogo</p>
 
                         </div>
 
@@ -39,8 +39,9 @@
                     <div class="col-12 col-md-5 mt-3">
                         <div class="option-card text-center" id="card-check" onclick="clickagregarSeries()">
                             <!-- <img src="./img/existing_item.gif" class="animate__animated" id="imagen-checklist" alt="imagen-cheklist" style="width:120px;"> -->
-                            <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_i3mq3e9v.json" background="transparent"  speed="1"  style="width: 250px; height: 250px;" loop autoplay></lottie-player>
-                            <p class="mt-3">Agregar a un producto ya agregado</p>
+                            <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_3WsNKy.json" background="transparent"  speed="1"  style="width: 250px; height: 250px;" loop autoplay></lottie-player>
+
+                            <p class="mt-3">Ingresar nueva mercancia</p>
 
                         </div>
                     </div>

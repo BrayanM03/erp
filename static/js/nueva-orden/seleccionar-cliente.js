@@ -56,7 +56,7 @@ function formatResultClientes(repo){
 
       if(repo.id !== false){
         var $container = $(
-            "<span id='"+repo.id+"'>"+ repo.nombre +"</span>"
+          "<span id='"+repo.id+"'>"+ repo.nombre +"</span>"   
         );
       }else{
           $container = "";

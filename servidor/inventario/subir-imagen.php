@@ -35,7 +35,7 @@
 
            
     
-            if($total_imagenes == 3){
+            if($total_imagenes >= 3){
                 $data = array("status"=>"error", 
                 "message"=>"No puedes subir mas de 3 imagenes",
                 );
@@ -52,17 +52,24 @@
 
             $result = array_diff($arreglo_original, $actual_files);
            
+          
+           
+            //echo json_encode($_FILES, JSON_UNESCAPED_UNICODE);
 
             if(count($result)!=0){
-                $nombre_nuevo = array_pop(array_reverse($result));
+                $array_reverse = array_reverse($result);
+                $nombre_nuevo = array_pop($array_reverse);
+          
             }else{
                 $nombre_nuevo = "No";
             }
 
-            $_FILES['file']['name'][$i] = $nombre_nuevo;
-            $filename = $_FILES['file']['name'][$i];
+     
+            $_FILES["file$i"]['name'] = $nombre_nuevo;
+           
+            $filename = $_FILES["file$i"]['name'];
 
-                if (move_uploaded_file($_FILES["file"]["tmp_name"][$i], "$folder/".$_FILES['file']['name'][$i])) {
+                if (move_uploaded_file($_FILES["file$i"]["tmp_name"], "$folder/".$_FILES["file$i"]['name'])) {
 
                     $update="UPDATE $tabla SET imagen = ? WHERE id =?";
                     $resp = $con->prepare($update);

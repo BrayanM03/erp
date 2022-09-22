@@ -107,7 +107,7 @@
                                                             </a>
                                                         </li>
                                                         <li class="sidebar-item">
-                                                            <a class="sidebar-link" href="inventario.php?store_id=<?php echo $row["id"] ?>&name=<?php echo $row["name"] ?>&categoria=computacion&subcategoria=energia">
+                                                            <a class="sidebar-link" id="icon-moved" href="inventario.php?store_id=<?php echo $row["id"] ?>&name=<?php echo $row["name"] ?>&categoria=computacion&subcategoria=energia">
                                                                 <i class="align-middle" data-feather="battery-charging"></i> <span class="align-middle">Energia</span>
                                                             </a>
                                                         </li>

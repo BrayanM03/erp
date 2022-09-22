@@ -8,13 +8,13 @@
 						<li class="nav-item dropdown">
 							<a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-bs-toggle="dropdown">
 								<div class="position-relative">
-									<i class="align-middle" data-feather="bell"></i>
+									<i class="align-middle" data-feather="shopping-cart"></i>
 									<span class="indicator">4</span>
 								</div>
 							</a>
 							<div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="alertsDropdown">
 								<div class="dropdown-menu-header">
-									4 New Notifications
+									4 articulos agregados
 								</div>
 								<div class="list-group">
 									<a href="#" class="list-group-item">
