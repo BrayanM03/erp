@@ -174,6 +174,7 @@ function clickEditarSeries(){
       let indicador = "sucursal";
       let tabla_ref = "inventario";
       $("#sucursal").val(id_sucursal).prop("disabled", true)
+       
 
       $.ajax({
         type: "POST",
@@ -366,10 +367,6 @@ function precioTotal(origen) {
 
 }
 
-function setSelect2(sucursal_id){
-
-  
-}
 
 
 

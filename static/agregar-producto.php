@@ -116,6 +116,8 @@ if (empty($_SESSION["id"])) {
   outline: none;
   border-color: var(--input-border-focus);
 }
+
+
 </style>
 
 <body>

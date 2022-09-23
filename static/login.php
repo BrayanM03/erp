@@ -14,28 +14,28 @@
 
 	<link rel="canonical" href="https://demo-basic.adminkit.io/pages-sign-in.html" />
 
-	<title>Iniciar sesión | Sistech</title>
+	<title>Iniciar sesión | Systech</title>
 
 	<link href="css/app.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 </head>
 
-<body>
+<body style="background-image: url(img/background.jpg); overflow-y: hidden;">
 	<main class="d-flex w-100">
 		<div class="container d-flex flex-column">
 			<div class="row vh-100">
 				<div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
 					<div class="d-table-cell align-middle">
 
-						<div class="text-center mt-4">
-							<h1 class="h2">Hola, bienvenido</h1>
-							<p class="lead">
+						<div class="text-center mt-4" >
+							<h1 class="h2"style="color:white">Hola, bienvenido</h1>
+							<p class="lead"style="color:#3e4144">
 								Accede a tu cuenta para continuar
 							</p>
 						</div>
 
-						<div class="card">
+						<div class="card" style="border-radius:10px;">
 							<div class="card-body">
 								<div class="m-sm-4">
 									<div class="text-center">

@@ -1,8 +1,11 @@
 function agregarEventos(params) {
+
   let sucursal = $("#sucursal");
   let producto = $("#producto");
+  let id_usuario = $("#user-data").attr("id_user");
   array_dataset = [];
-  tableInit(array_dataset);
+  inicializarDataTable();
+  restearTabla(id_usuario)
 
   sucursal.on("change", function () {
     if ($(this).val() !== "") {
@@ -11,10 +14,12 @@ function agregarEventos(params) {
       let indicador = "sucursal";
       let tabla_ref = "inventario";
       $("#producto").prop("disabled", false);
+
       $("#producto").select2({
         theme: "bootstrap",
         ajax: {
-          url: "../servidor/inventario/traer-datos-en-base-uno.php",
+          url: "../servidor/busquedas/buscar-productos.php",
+          placeholder: "Buscar un producto",
           type: "post",
           dataType: 'json',
           delay: 250,
@@ -44,8 +49,8 @@ function agregarEventos(params) {
       })
     
       function formatResultProducts(repo){
-        console.log(repo);
-        if(repo.id == "null"){
+       
+        if(repo.loading == true){
           var $container = $(
             `
             <div class="row">
@@ -59,11 +64,18 @@ function agregarEventos(params) {
           var $container = $(
             `
             <div class="row">
-              <div class="col-12 col-md-3">
+              <div class="col-12 col-md-2">
                  <img src="img/productos/P${repo.id}/P1.jpg" style="width:60px;border-radius:8px;">
               </div>
-              <div class="col-12 col-md-9">
-                <span id="${repo.id}">${repo.text}</span>
+              <div class="col-12 col-md-10 text-start">
+                <div class="row">
+                  <span id="${repo.id}">${repo.descripcion}</span>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md-12 text-start">
+                      <span style="font-size:12px;">${repo.categoria} - ${repo.subcategoria} |  Stock ${repo.stock} | <i class="fa-solid fa-magnifying-glass"></i> ${repo.codigo}</span>
+                    </div> 
+                </div>
               </div>
             </div>`
           
@@ -74,8 +86,21 @@ function agregarEventos(params) {
       }
     
       function formatSelection(repo){
-        if(repo.id == "null"){
-          var response = repo.text
+     
+        if(repo.id !== "null"){
+
+          $("#categoria-data").text(repo.categoria)
+          $("#subcategoria-data").text(repo.subcategoria)
+          $("#codigo-data").text(repo.codigo)
+          $("#estatus-data").text(repo.estatus)
+          $("#stock-data").text(repo.stock)
+          $("#descripcion-data").text(repo.descripcion)
+          $("#area-producto").attr("id_producto", repo.id)
+
+          $("#img-prod").attr("src", `img/productos/P${repo.id}/P1.jpg`)
+          $("#btn-add-serie").removeClass("disabled")
+          var response = repo.descripcion
+
         }else{
           var response = repo.text
         }
@@ -83,79 +108,9 @@ function agregarEventos(params) {
         return response
       }
 
-     /*  $.ajax({
-        type: "POST",
-        url: "../servidor/inventario/traer-datos-en-base-uno.php",
-        data: { id: id_sucursal, tabla: tabla_ref, indicador: indicador },
-        dataType: "JSON",
-        success: function (response) {
-          if (response.status == true) {
-            $("#producto").prop("disabled", false);
-            $("#producto")
-              .empty()
-              .append(`<option value="null">Selecciona un producto</select>`);
-              setearForm(2);
-            response.data.forEach((element) => {
-              /* $("#producto").attr("categoria", element.categoria)
-              $("#producto").attr("subcategoria", element.subcategoria)
-              $("#producto").attr("codigo", element.codigo)
-              $("#producto").attr("estatus", element.estatus)
-              $("#producto").attr("stock", element.stock)
-              $("#producto").attr("descripcion", element.descripcion)
-              $("#producto").attr("", element.categoria) 
-              $("#producto").append(`
-                            <option value="${element.id}">${element.descripcion}</option>
-                        `);
-            });
-          } else {
-             setearForm(1);
-          }
-        },
-      }); */
 
     } else {
-      setearForm(1);
-    }
-  });
-
-  producto.on("change", function () {
-    if ($(this).val() !== "null") {
-      let id_producto = $(this).val();
-      let indicador = "producto_id";
-      let tabla_ref = "series";
-      $.ajax({
-        type: "POST",
-        url: "../servidor/inventario/traer-datos-en-base-uno.php",
-        data: { id: id_producto, tabla: tabla_ref, indicador: indicador },
-        dataType: "JSON",
-        success: function (response) {
-          if (response.status == true) {
-            $("#serie-cond").prop("disabled", false);
-            $("#serie-evap").prop("disabled", false);
-            $("#btn-add-serie").removeClass("disabled")
-
-            let array_dataset = response.data.map(function (item) {
-              let array_item = Object.values(item);
-              return array_item;
-            });
-
-             array_dataset = array_dataset.filter(function(val) {
-              console.log(val[6]);
-              if(val[6] == "Activo"){
-                return val; 
-              }
-              
-          });
-
-          
-            
-            tableDestroy();
-            tableInit(array_dataset);
-          }
-        },
-      });
-    } else {
-      setearForm(2);
+      setearForm();
     }
   });
 
@@ -397,87 +352,52 @@ let language_options = {
   },
 };
 
-function tableInit(array_dataset) {
- 
-  tabla = $("#example").DataTable({
 
-    processing: true,
-    data: array_dataset,
-    responsive: true,
-    order: [0, 'desc'],
-    columns: [
-      { data: 0, title: "#" },
-      { data: 1, title: "Fecha compra" },
-      { data: 2, title: "Condensador" },
-      { data: 3, title: "Evaporizador" },
-      {
-        data: null,
-        title: "Opciones",
-        render: function (row) {
-          return `
-                <div class='row'>
-                    <div class='col-12 col-md-12'>
-                        <div class="btn btn-primary" onclick="editarSerie(${row[0]}, '${row[1]}', '${row[2]}', '${row[3]}')"><i class="fa-solid fa-pen-to-square"></i></div>
-                        <div class="btn btn-danger" onclick="eliminarSerie(${row[0]})"><i class="fa-solid fa-trash"></i></div>
-                    </div>
-                </div>
-                `;
-        },
-      },
-    ],
 
-    language: language_options,
-  });
-
-  $('#example tbody tr').on('click', function () {
-    if ($(this).hasClass('selected')) {
-        $(this).removeClass('selected');
-    } else {
-      tabla.$('tr.selected').removeClass('selected');
-        $(this).addClass('selected');
-    }
-  });
-};
-
-function tableDestroy() {
-  $("#example").dataTable().fnDestroy();
-};
 
 function setearForm(origin) {
-  if (origin == 1) {
-    $("#producto").empty().prop("disabled", true);
-  }
+  
+  $("#cantidad").val("")
+  $("#categoria-data").text("")
+  $("#subcategoria-data").text("")
+  $("#codigo-data").text("")
+  $("#estatus-data").text("")
+  $("#stock-data").text("")
+  $("#descripcion-data").text("")
+  $("#img-prod").attr("src", `img/productos/NA.jpg`)
+  $("#area-producto").attr("id_producto", "")
 
-  $("#serie-cond").prop("disabled", true);
-  $("#serie-evap").prop("disabled", true);
-  tableDestroy();
-  let array_dataset = [];
-  tableInit(array_dataset);
+  $("#producto").empty().prop("disabled", true)
   $("#btn-add-serie").addClass("disabled")
+ 
+  
 };
 
-function agregarSerie(){
+
+function agregarProductoARemision(){
     
-    let sucursal = $("#sucursal").val();
-    let producto = $("#producto").val();
-    let fecha = $("#fecha-compra").val();
-    let serie_cond = $("#serie-cond").val();
-    let serie_evap = $("#serie-evap").val();
+    let codigo = $("#codigo-data").text();
+    let cantidad = $("#cantidad").val();
+    let categoria = $("#categoria-data").text();
+    let subcategoria = $("#subcategoria-data").text();
+    let descripcion = $("#descripcion-data").text();
+    let id_producto =  $("#area-producto").attr("id_producto")
 
     let dato = {
         type: "insercion",
-        sucursal: sucursal,
-        producto: producto,
-        fecha: fecha,
-        serie_cond: serie_cond,
-        serie_evap: serie_evap
+        codigo: codigo,
+        cantidad: cantidad,
+        categoria: categoria,
+        subcategoria: subcategoria,
+        descripcion: descripcion,
+        id_producto: id_producto
     };
 
-    console.log(dato);
+    
 
     $.ajax({
         type: "POST",
-        url: "../servidor/inventario/manejo-de-series.php",
+        url: "../servidor/inventario/agregar-producto-detalle-remision.php",
         data: dato,
         dataType: "JSON",
         success: function (response) {
@@ -486,15 +406,15 @@ function agregarSerie(){
 
                 Toast.fire({
                     icon: 'success',
-                    title: response.mensj
+                    title: response.message
                   })
 
-                 reloadTable();
+                  tabla.ajax.reload(null, false);
 
             }else{
                 Toast.fire({
                     icon: 'error',
-                    title: response.mensj
+                    title: response.message
                   })
             }
 
@@ -546,25 +466,6 @@ function eliminarSerie(id_serie){
 }
 
 
-function editarSerie(id_serie, fecha, condensador, evaporizador) {
-
-  console.log(fecha);
-  $('#serie-cond').val(condensador)
-  $('#serie-evap').val(evaporizador)
-  $('#fecha-compra').val(fecha)
-
-  $("#area-botones").empty().append(`
-  <div class="col-12 col-md-6 text-end">
-       <div class="btn btn-danger" id="btn-cancel-update" onclick="cancelarUpdate()">Cancelar</div>
-  </div>
-
-  <div class="col-12 col-md-6 text-start">
-       <div class="btn btn-primary" id="btn-update-series" onclick="updateSeries(${id_serie})">Actualizar</div>
-  </div>
-                    `)
-
-
-}
 
 function updateSeries(id_serie) { 
 
@@ -616,42 +517,63 @@ function cancelarUpdate(){
 }
 
 
-function reloadTable(){
+function inicializarDataTable(){
 
-  let id_producto = $("#producto").val();
-  let indicador = "producto_id";
-  let tabla_ref = "series";
+  let sucursal_id = $("#sucursal").val()
 
-  $.ajax({
-     type: "POST",
-     url: "../servidor/inventario/traer-datos-en-base-uno.php",
-     data: { id: id_producto, tabla: tabla_ref, indicador: indicador },
-     dataType: "JSON",
-     success: function (response) {
-     if (response.status == true) {
-         $("#serie-cond").prop("disabled", false);
-         $("#serie-evap").prop("disabled", false);
-         $("#btn-add-serie").removeClass("disabled")
+  tabla = $('#example').DataTable({
+    processing: true,
+    serverSide: true,
+    ajax:{
+        url: '../servidor/inventario/server_processing_entrada_tmp.php?sucursal_id=' + sucursal_id ,
+        dataType: 'json'
+    },
+    responsive: true,
+    order: [0, 'desc'],
+    columns:  [ 
+        { data:0, title:'#' },
+        { data:1, title:'Codigo' },
+        { data:2, title:'Descripción' },
+        { data:4, title:'Cantidad' },
+       /*  { data:12, title:'Imagen', render: ()=>{ 
+          return `<img src="./img/productos/NA.jpg" style="width:60px; border-radius:5px; border:1px solid 	#B4B2B1">`;}},
+         */{ data:null, title:'Opciones', render: function(row){
+            return `
+            <div class='row'>
+                <div class='col-12 col-md-12'>
+                    <div class="btn btn-primary" onclick="editarProducto(${row[0]})"><i class="fa-solid fa-pen-to-square"></i></div>
+                    <div class="btn btn-danger" onclick="eliminarProducto(${row[0]})"><i class="fa-solid fa-trash"></i></div>
+                </div>
+            </div>
+            `
+        }}
+    ],
+    
+        language: language_options,
 
-         let array_dataset = response.data.map(function (item) {
-         let array_item = Object.values(item);
-         console.log(array_item);
-         return array_item;
-         });
-         
-         array_dataset = array_dataset.filter(function(val) {
-          console.log(val[6]);
-          if(val[6] == "Activo"){
-            return val; 
-          }
-          
-      });
-         
-         tableDestroy();
-         tableInit(array_dataset);
-     }
-     },
- });
+
+    
+    
+});
+  
 
 }
+
+function restearTabla(id){
+  $.ajax({
+      type: "POST",
+      url: "../servidor/inventario/reset-entrada-temp.php",
+      data: {id:id},
+      dataType: "JSON",
+      success: function (response2) { 
+          if(response2.status == true){
+            tabla.ajax.reload(null, false);
+  
+             
+          }
+      }
+  });
+  
+}  
+
 

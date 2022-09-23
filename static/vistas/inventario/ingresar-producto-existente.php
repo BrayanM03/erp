@@ -45,7 +45,7 @@
                 <div class="row mb-3">
 
                     <div class="col-12 col-md-8">
-                        <div class="producto-data" style="margin-top:22px;border: 1px dashed #c3c3c3; padding:15px; border-radius: 8px">
+                        <div class="producto-data" id="area-producto" style="margin-top:22px;border: 1px dashed #c3c3c3; padding:15px; border-radius: 8px">
                             <div class="row mb-2">
                                 <div class="col-12 col-sm-4"><b>Codigo:</b></br>
                                     <span id="codigo-data"></span>
@@ -97,7 +97,7 @@
 
                 <div class="row mb-3 justify-content-center" id="area-botones">
                     <div class="col-12 col-md-6 text-center">
-                        <div class="btn btn-success disabled" id="btn-add-serie" onclick="agregarSerie()">Agregar</div>
+                        <div class="btn btn-success disabled" id="btn-add-serie" onclick="agregarProductoARemision()">Agregar</div>
                     </div>
                 </div>
 
