@@ -206,18 +206,6 @@ async function validarCodigo(codigo) {
 }  
 
 
-/* function generarCodigo(){
-    $.ajax({
-        type: "POST",
-        url: "../servidor/inventario/generar-codigo",
-        data: "data",
-        dataType: "dataType",
-        success: function (response) {
-            
-        }
-    });
-} */
-
 
 
 

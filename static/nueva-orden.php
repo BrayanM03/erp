@@ -20,7 +20,7 @@ if (empty($_SESSION["id"])) {
 
     <link rel="canonical" href="https://demo-basic.adminkit.io/pages-blank.html" />
 
-    <title>Nueva orden | AireEx manager</title>
+    <title>Nueva orden | PSC manager</title>
 
     <link href="css/app.css" rel="stylesheet">
     <link href="css/estilos-agregar-producto.css" rel="stylesheet">
@@ -32,6 +32,10 @@ if (empty($_SESSION["id"])) {
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
 	<link href="../vendor/nice-select/css/nice-select.css">
     <link href="../vendor/nice-select/css/style.css">
+    <link rel="stylesheet" href="./css/form-field.css">
+    <link rel="stylesheet" href="./css/punto-venta.css">
+
+
     <style>
        .select2-container .select2-selection--single {
         height: 20px !important;
@@ -41,8 +45,9 @@ if (empty($_SESSION["id"])) {
         }
 
         .select2 {
-width:100%!important;
-}
+        width:100%!important;
+        }
+
     </style>
 </head>
 
@@ -61,9 +66,9 @@ width:100%!important;
                 <div class="container-fluid p-0" id="main-content">
 
                    
-                        <?php
-                        include "vistas/nueva_orden/seleccionar-tipo-venta.php";
-                        ?>
+                    <?php
+                        include "vistas/nueva_orden/punto_venta.php";
+                    ?>
                     
 
                 </div>
@@ -108,6 +113,7 @@ width:100%!important;
     <!-- Librerias -->
     <script src="https://kit.fontawesome.com/31a28ea63e.js" crossorigin="anonymous"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>

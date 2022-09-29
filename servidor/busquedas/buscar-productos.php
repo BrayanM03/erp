@@ -6,16 +6,21 @@ if ($_POST) {
 
     $key = $_POST['id'];
     $tabla = $_POST['tabla'];
-    $indicador = $_POST['indicador'];
+    $indicador = $_POST['indicador']; 
+    $input = $_POST['input'];
+    $entrada = $input["term"];
+    //print_r($entrada. "--");
+    $parametro = "%$entrada%";
 
-    $consultar = $con->prepare("SELECT COUNT(*) FROM $tabla WHERE $indicador  = ?");
-    $consultar->execute([$key]);
+    $consultar = $con->prepare("SELECT COUNT(*) FROM $tabla WHERE $indicador  = ? AND descripcion LIKE ? OR codigo LIKE ? OR upc LIKE ? OR modelo LIKE ? OR marca LIKE ? OR sat_key LIKE ?");
+    $consultar->execute([$key, $parametro, $parametro, $parametro, $parametro, $parametro, $parametro]);
     $total = $consultar->fetchColumn(); 
+
 
     if($total > 0){
 
-        $consultar = $con->prepare("SELECT * FROM $tabla WHERE $indicador  = ? ORDER BY id DESC");
-        $consultar->execute([$key]);
+        $consultar = $con->prepare("SELECT * FROM $tabla WHERE $indicador  = ? AND descripcion LIKE ? OR codigo LIKE ? OR upc LIKE ? OR modelo LIKE ? OR marca LIKE ? OR sat_key LIKE ? ORDER BY id DESC");
+        $consultar->execute([$key, $parametro, $parametro, $parametro, $parametro, $parametro, $parametro]);
         while ($row = $consultar->fetch()) {
 
             $data['data'][] = $row;
@@ -30,6 +35,7 @@ if ($_POST) {
     }
 
     echo json_encode( $data['data'], JSON_UNESCAPED_UNICODE);
+    //data['data']
 
 
 }

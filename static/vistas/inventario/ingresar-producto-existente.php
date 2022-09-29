@@ -26,7 +26,7 @@
 
                 <div class="row mb-3">
 
-                    <div class="col-12 col-md-6">
+                    <div class="col-12 col-md-3">
                         <span class="mb-2">Sucursal a agregar</span>
                         <select class="form-field mb-1" id="sucursal" name="sucursal">
                             <option value="">Selecciona una sucursal</option>
@@ -34,7 +34,7 @@
                         </select>
                     </div>
 
-                    <div class="col-12 col-md-6">
+                    <div class="col-12 col-md-9">
                         <label for="cantidad">Producto</label>
                         <select class="form-field" name="producto" id="producto" disabled>
                         </select>
@@ -97,7 +97,7 @@
 
                 <div class="row mb-3 justify-content-center" id="area-botones">
                     <div class="col-12 col-md-6 text-center">
-                        <div class="btn btn-success disabled" id="btn-add-serie" onclick="agregarProductoARemision()">Agregar</div>
+                        <div class="btn btn-primary disabled" id="btn-add-serie" onclick="agregarProductoARemision()">Agregar</div>
                     </div>
                 </div>
 
@@ -111,6 +111,12 @@
                     </div>
                 </div>
 
+
+                <div class="row mt-4 justify-content-center">
+                <div class="col-12 col-md-4 text-center">
+                        <div class="btn btn-success disabled" onclick="agregarMercancia();" id="btn-registrar-prod">Registrar productos</div>
+                    </div>
+                </div>
 
             </div>
         </div>

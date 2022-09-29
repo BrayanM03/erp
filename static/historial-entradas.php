@@ -20,57 +20,16 @@ if (empty($_SESSION["id"])) {
 
     <link rel="canonical" href="https://demo-basic.adminkit.io/pages-blank.html" />
 
-    <title>Agregar producto | ERP manager</title>
+    <title>Inventario | ERP manager</title>
 
     <link href="css/app.css" rel="stylesheet">
-    <link href="css/estilos-agregar-producto.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css" />
-    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css" integrity="sha512-kq3FES+RuuGoBW3a9R2ELYKRywUEQv0wvPTItv3DSGqjpbNtGWVdvT8qwdKkqvPzT93jp8tSF4+oN4IeTEIlQA==" crossorigin="anonymous" referrerpolicy="no-referrer" /><!-- 
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" /> -->
-    <link rel="stylesheet" href="./css/form-field.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="css/contextual-menu.css">
 </head>
-
-<style>
-      .buttom-advanced-options{
-        color: rgb(157, 157, 138);
-        text-decoration: none;
-        font-size: 12xp;
-    }
-
-    
-
-.dropzone{
-        border: 2px dashed #c3c3c3;
-        padding: 20px;
-       
-    }
-
-    .icon i{
-        font-size: 3em;
-        text-align: center;
-        color: #696767;
-        background-color: #dfdddd;
-        height: 100px;
-        width: 100px;
-        margin-bottom: 20px;
-        border-radius: 50%;
-        padding: 25px 20px; 
-    }
-
-    .note{
-        color: #40405b;
-    }
-
-
-
-
-</style>
 
 <body>
     <div class="wrapper">
@@ -84,18 +43,56 @@ if (empty($_SESSION["id"])) {
             ?>
 
             <main class="content">
-                <div class="container-fluid p-0" id="main-content">
+                <div class="container-fluid p-0">
 
-                    
-                        <?php
-                        include "vistas/inventario/seleccionar-tipo-agregar.php";
-                        ?>
-                    
+                    <div class="row mb-2">
+                        <div class="col-12 col-md-10">
+                            <h1 class="h3 mb-3">Entradas</h1>
+                        </div>
+                        <div class="col-12 col-md-2 text-end">
+                            <select class="form-control" id="sucursal">
+                                <option value="1">Buena Vista</option>
+                            </select>
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">Historial de remision de mercancia entrante</h1>
+                                    </h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12 col-md-12">
+                                            <table id="example" class="table table-hover nowrap" style="width:100%">
+                                                <!-- <thead>
+                                                <tr>
+                                                    <th>Subscriber ID</th>
+                                                    <th>Install Location</th>
+                                                    <th>Subscriber Name</th>
+                                                    <th>some data</th>
+                                                </tr>
+                                            </thead> -->
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <?php include_once('vistas/general/contextual-menu.php'); ?>
+
+
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
-
-                
-                
             </main>
 
             <footer class="footer">
@@ -125,7 +122,7 @@ if (empty($_SESSION["id"])) {
                     </div>
                 </div>
             </footer>
-        </div> 
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -136,42 +133,35 @@ if (empty($_SESSION["id"])) {
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
-    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
-    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
     <script src="https://unpkg.com/jspdf-autotable@3.5.22/dist/jspdf.plugin.autotable.js"></script>
 
     <!-- Mis scripts -->
-    <script src="js/inventario/opciones.js"></script>
-    <script src="js/inventario/registrar-producto.js"></script>
-    <script src="js/inventario/agregar-mercancia.js"></script>
-
-
-    <!-- Mis scripts -->
+    <script src="js/historial/lista-entradas.js"></script>
+    <script src="js/contextual-menu/contextual-menu.js"></script>
     <script src="js/reportes/logo.js"></script>
+
+
+
     <script src="js/reportes/remision-entrada.js"></script>
 
-  
+    <!-- <script src="js/clientes/traer-lista.js"></script>
+    <script src="js/clientes/eliminar-cliente.js"></script>
+
+ -->
     <script>
-        
-$( "#card-aire" ).hover(
-  function() {
-    $("#imagen-aire").addClass( "animate__pulse animate__infinite infinite")
-  }, function() {
-    $("#imagen-aire").removeClass( "animate__pulse animate__infinite infinite" );
-  }
-);
+        $(".sidebar-link").hover(
+            function() {
+                var hijo = $(this).children(":first")
+                hijo.addClass('fa-beat');
 
-$( "#card-check" ).hover(
-  function() {
-    $("#imagen-checklist").addClass( "animate__pulse animate__infinite infinite" );
-  }, function() {
-    $("#imagen-checklist").removeClass( "animate__pulse animate__infinite infinite" );
-  }
-);
-
+            },
+            function() {
+                var hijo = $(this).children(":first")
+                hijo.removeClass('fa-beat');
+            }
+        );
     </script>
 </body>
 

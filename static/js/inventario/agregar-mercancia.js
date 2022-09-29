@@ -410,12 +410,14 @@ function agregarProductoARemision(){
                   })
 
                   tabla.ajax.reload(null, false);
+                  validarTabla()
 
             }else{
                 Toast.fire({
                     icon: 'error',
                     title: response.message
                   })
+                  validarTabla()
             }
 
         }
@@ -425,32 +427,32 @@ function agregarProductoARemision(){
 
 };
 
-function eliminarSerie(id_serie){
+function eliminarProducto(id_prod){
+  let id_usuario = $("#user-data").attr("id_user");
 
   Swal.fire({
     icon: "question",
-    html: "<b>¿Seguro de eliminar estas series?</b>",
+    html: "<b>¿Seguro de eliminarlo de la lista?</b>",
     confirmButtonText: "Si",
     showCancelButton: true,
     cancelButtonText: "Mejor no"
   }).then((response) => {
     if(response.isConfirmed) {
 
-      let id_producto = $("#producto").val();
       let dato = {
-        producto: id_producto,
         type: "eliminacion",
-        serie:id_serie
+        id_producto: id_prod
     };
 
       $.ajax({
         type: "POST",
-        url: "../servidor/inventario/manejo-de-series.php",
+        url: "../servidor/inventario/tabla-preentrada.php",
         data: dato,
         dataType: "JSON",
         success: function (response) {
         
-        reloadTable()
+        restearTabla(id_usuario)
+        validarTabla()
 
         Toast.fire({
           icon: 'success',
@@ -467,52 +469,30 @@ function eliminarSerie(id_serie){
 
 
 
-function updateSeries(id_serie) { 
 
-  let id_producto = $("#producto").val();
-  let serie_cond = $("#serie-cond").val();
-  let serie_evap = $("#serie-evap").val();
-  let fecha_compra = $("#fecha-compra").val();
+function validarTabla() {
+  let id_producto = $("#area-producto").attr("id_producto")
+
   let dato = {
-    producto: id_producto,
-    serie_cond: id_serie,
-    serie_cond: serie_cond,
-    serie_evap: serie_evap,
-    fecha_compra: fecha_compra,
-    type: "actualizacion",
-    serie:id_serie
+    type: "validacion",
+    id_producto: id_producto
 };
 
   $.ajax({
     type: "POST",
-    url: "../servidor/inventario/manejo-de-series.php",
+    url: "../servidor/inventario/tabla-preentrada.php",
     data: dato,
     dataType: "JSON",
     success: function (response) {
     
-    reloadTable()
-
-    Toast.fire({
-      icon: 'success',
-      title: response.mensj
-    })
+    if(response.status == true){
+        $("#btn-registrar-prod").removeClass("disabled");
+    }else{
+      $("#btn-registrar-prod").addClass("disabled");
+    }
       
     }
 });
-
- }
-
-function cancelarUpdate(){
-
-  $('#serie-cond').val("")
-  $('#serie-evap').val("")
-  $('#fecha-compra').val("")
-
-  $("#area-botones").empty().append(`
-  <div class="col-12 col-md-6 text-center">
-     <div class="btn btn-success" id="btn-add-serie" onclick="agregarSerie()">Agregar</div>
- </div>
-                    `)
 
 }
 
@@ -541,7 +521,6 @@ function inicializarDataTable(){
             return `
             <div class='row'>
                 <div class='col-12 col-md-12'>
-                    <div class="btn btn-primary" onclick="editarProducto(${row[0]})"><i class="fa-solid fa-pen-to-square"></i></div>
                     <div class="btn btn-danger" onclick="eliminarProducto(${row[0]})"><i class="fa-solid fa-trash"></i></div>
                 </div>
             </div>
@@ -551,8 +530,6 @@ function inicializarDataTable(){
     
         language: language_options,
 
-
-    
     
 });
   
@@ -575,5 +552,52 @@ function restearTabla(id){
   });
   
 }  
+
+function agregarMercancia() {
+
+  let id_sucursal = $("#sucursal").val()
+  let id_usuario = $("#user-data").attr("id_user");
+
+
+  let dato = {
+    type: "insercion",
+    sucursal_id: id_sucursal
+};
+
+  $.ajax({
+    type: "POST",
+    url: "../servidor/inventario/tabla-preentrada.php",
+    data: dato,
+    dataType: "JSON",
+    success: function (response) {
+    
+    if(response.status == true){
+      Swal.fire({
+        icon: "success",
+        html: "<b>Productos agregados con exito</b><br>¿Ver remisión?",
+        confirmButtonText: "Si",
+        showCancelButton: true,
+        cancelButtonText: "Mejor no"
+      }).then(function (ress) {
+        if(ress.isConfirmed){
+
+          verRemision(response.folio)
+          setearForm(origin)
+          restearTabla(id_usuario)
+        }else{
+          setearForm(origin)
+          restearTabla(id_usuario)
+        }
+      })
+      $("#btn-registrar-prod").addClass("disabled");
+
+    }else{
+      $("#btn-registrar-prod").removeClass("disabled");
+    }
+      
+    }
+});
+
+}
 
 
