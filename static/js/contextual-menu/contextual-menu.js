@@ -1,7 +1,10 @@
 
-function contextualMenu(id_remision){
-    $("#ir-item").attr("onclick", `eliminarProducto(${id_remision})`)
-    $("#ver-item").attr("onclick", `verRemision(${id_remision})`)
+function contextualMenu(id_item){
+    $("#agregar-item").attr("onclick", `agregarACarrito(${id_item})`)
+    $("#eliminar-item").attr("onclick", `eliminarProducto(${id_item})`)
+    $("#ver-item").attr("onclick", `verRemision(${id_item})`)
+    $("#editar-item").attr("onclick", `editarProducto(${id_item})`)
+
 } 
 
 const contextMenu = document.querySelector(".wrapper-cm")

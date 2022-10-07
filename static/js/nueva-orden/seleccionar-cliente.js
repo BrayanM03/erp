@@ -73,15 +73,16 @@ function formatSelection (repo) {
 
     if(repo.id !== false){
         
-        $("#nombre").text(repo.nombre)
-        $("#telefono").text(repo.telefono)
+        $("#nombre_cliente").text(repo.nombre)
+        $("#nombre_cliente").attr("id_cliente",repo.id)
+        /* $("#telefono").text(repo.telefono)
         $("#fecha-ingreso").text(repo.fecha_ingreso)
         $("#contacto").text(repo.contacto)
         $("#rfc").text(repo.rfc)
-        $("#id-cliente").text(repo.id);
+        $("#id-cliente").text(repo.id); */
 
-        let direcciones = traerDatosCliente(repo.id)
-
+        //let direcciones = traerDatosCliente(repo.id)
+ 
 
     }
  

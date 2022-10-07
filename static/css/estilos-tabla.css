@@ -1,0 +1,28 @@
+.celda-desc{
+    width: 350px;
+    font-size: 12px;
+    word-break: break-word;
+    white-space: normal !important;
+
+}
+
+@media screen and (max-width: 768px) {
+    .celda-desc{
+        width: auto !important;
+        white-space: nowrap !important;
+        overflow-x: scroll !important;
+    }
+}
+
+
+.card{
+    border-radius: 16px !important;
+}
+
+.img-product{
+    width:60px; 
+    height: 60px;
+    border-radius:5px; 
+    border:1px solid #B4B2B1;
+    object-fit: cover;
+}

@@ -307,7 +307,7 @@
                                                             </a>
                                                         </li>
                                                         <li class="sidebar-item">
-                                                            <a class="sidebar-link" href="iinventario.php?store_id=<?php echo $row["id"] ?>&name=<?php echo $row["name"] ?>&categoria=punto_de_venta&subcategoria=escaners">
+                                                            <a class="sidebar-link" href="inventario.php?store_id=<?php echo $row["id"] ?>&name=<?php echo $row["name"] ?>&categoria=punto_de_venta&subcategoria=escaners">
                                                                 <i class="align-middle" data-feather="list"></i> <span class="align-middle">Escaner</span>
                                                             </a>
                                                         </li>
@@ -375,6 +375,12 @@
             <li class="sidebar-item">
                 <a class="sidebar-link" href="clientes.php">
                     <i class="align-middle" data-feather="heart"></i> <span class="align-middle">Clientes</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item">
+                <a class="sidebar-link" href="usuarios.php">
+                    <i class="align-middle" data-feather="user"></i> <span class="align-middle">Usuarios</span>
                 </a>
             </li>
 <!-- 

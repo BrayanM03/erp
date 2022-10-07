@@ -4,7 +4,8 @@
         <div class="result-products d-none" id="result-products"></div>
     </div>
     <div class="col-12 col-md-3">
-        <input type="number" class="form-field" placeholder="Cantidad" id="cant-producto">
+        <select type="text" class="form-field" id="cliente">
+        </select>
     </div>
 </div>
 <div class="row mt-3" style="padding: 0px;">
@@ -12,10 +13,14 @@
 
             <div class="row">
                 <div class="col-12 col-md-9" id="area-products">
-                <div class="message_empty">
-                <lottie-player src="https://assets6.lottiefiles.com/private_files/lf30_e3pteeho.json" background="transparent"  speed="1"  style="width: 250px; height: 250px;" loop autoplay></lottie-player></br>
-                    <p>Sin productos</p>
-                </div>
+                <div class="row">
+                    <div class="col-12 col-md-12">
+                    <div class="message_empty">
+                        <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_b88nh30c.json" background="transparent"  speed="1"  style="width: 250px; height: 250px;" loop autoplay></lottie-player>
+                        <p>Cargando...</p>
+                    </div>
+                    </div>
+                </div>    
                 </div>
 
                 <div class="col-12 col-md-3">
@@ -23,8 +28,8 @@
                         <div class="row mt-3">
                             <div class="col-12 col-md-12 text-center">
                               <div class="customer-profile">
-                                    <img src="./img/productos/NA.jpg" alt="" id="cliente-img">
-                                    <div class="cliente-body">Publico en general</div>
+                                    <img src="./img/user.png" alt="" id="cliente-img">
+                                    <div class="cliente-body" id="nombre_cliente" id_cliente="26">Publico en general</div>
                               </div>
                             </div>
                         </div>
@@ -34,7 +39,7 @@
                              <div class="body-ticket">
                                 <b style="color: #e9bd15;">Ticket de venta</b>
                                 
-                                <ul class="products-list">
+                                <ul class="products-list" id="products-list">
                                     <li>
                                         <div class="row">
                                             <div class="col-12 col-md-6">Concepto</div>
@@ -42,31 +47,39 @@
                                             <div class="col-12 col-md-3">Importe</div>
                                         </div>
                                     </li>
-                                    <li>
-                                        <div class="row text-center">
-                                            <div class="col-12 col-md-6">Aire comprimido Prefect choice 335mL</div>
-                                            <div class="col-12 col-md-3">
-                                              <span class="btn-add-rem"><b>-</b></span>  <span class="quanty">2</span><span class="btn-add-rem"><b>+</b></span>
-                                            </div>
-                                            <div class="col-12 col-md-3" class="import-cell">$120.00</div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="row">
-                                            <div class="col-12 col-md-6">Impresora HP MSL23 Multifuncional blanco y negro / Color</div>
-                                            <div class="col-12 col-md-3">
-                                            <span class="btn-add-rem"><b>-</b></span>  <span class="quanty">1</span><span class="btn-add-rem"><b>+</b></span>
-
-                                            </div>
-                                            <div class="col-12 col-md-3" class="import-cell">$15,000.00</div>
-                                        </div>
-                                    </li>
+                                    <div id="products-body"></div>
                                 </ul>
                               </div>  
                           </div> 
                         </div>
-                        
+
+                     
                     </div>
+                    <div class="row">
+                            <div class="col-12">
+                                <div class="totales">
+                                    <ul>
+                                        <li>
+                                           <div class="row">
+                                           <div class="col-12 col-md-5">IVA</div> 
+                                           <div class="col-12 col-md-7"><span id="iva">$0.00</span></div>
+                                           </div> 
+                                        </li>
+                                        <li>
+                                        <div class="row">
+                                           <div class="col-12 col-md-5">Total</div> 
+                                           <div class="col-12 col-md-7"><b><span id="neto">$0.00</span></b></div>
+                                        </div> 
+                                        </li>
+                                    </ul>
+                                    <div class="row">
+                                        <div class="col-12 btn-vender">
+                                        <div class="btn btn-success">Vender</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                 </div>
             </div>
 

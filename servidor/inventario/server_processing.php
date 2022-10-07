@@ -19,13 +19,14 @@
  */
 
 // DB table to use
-$table = 'inventario_computacion';
 
 // Table's primary key
 $primaryKey = 'id';
 $sucursal_id = $_GET['sucursal_id'];
 $categoria = $_GET['categoria'];
 $subcategoria = $_GET['subcategoria'];
+$table = "inventario_$categoria";
+
 
 
 // Array of database columns which should be read and sent back to DataTables.

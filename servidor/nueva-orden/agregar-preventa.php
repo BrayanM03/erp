@@ -1,55 +1,62 @@
 <?php
 
-
     session_start();
-    include '../database/conexion.php';
-    include '../nueva-orden/traer-importe.php';
-    
+    include '../database/conexion.php';    
     date_default_timezone_set("America/Matamoros");
 
 
-    $id_producto = $_POST["id"];
-    $series = $_POST["series"];
-    $precio_unitario = $_POST["precio"];
-    $cantidad = count($series);
+    $id_producto = $_POST["id_product"];
+    $cantidad = $_POST["cantidad"];
+    $cliente = $_POST["cliente"];
 
-    $contar = "SELECT COUNT(*) FROM detalle_preventa_tmp WHERE producto_id = ? AND user_id = ?";
+    $validar = "SELECT COUNT(*) FROM inventario WHERE id = ?";
+    $re = $con->prepare($validar);
+    $re->execute([$id_producto]);
+    $total_p = $re->fetchColumn();
+    $re->closeCursor();
+
+    if($total_p > 0){
+        $sel = "SELECT * FROM inventario WHERE id = ?";
+        $res = $con->prepare($sel);
+        $res->execute([$id_producto]);
+
+        while ($row = $res->fetch()) {
+             $data = $row;
+        }
+
+      }
+
+
+    $contar = "SELECT COUNT(*) FROM carrito_compra WHERE producto_id = ? AND usuario_id = ?";
     $re = $con->prepare($contar);
     $re->execute([$id_producto, $_SESSION["id"]]);
     $count = $re->fetchColumn();
+    $re->closeCursor();
 
     if($count == 0){
 
-        
-    $consultar = "SELECT * FROM inventario WHERE id = ?";
-    $resp = $con->prepare($consultar);
-    $resp->execute([$id_producto]);
-    while ($row = $resp->fetch()) {
-        $descripcion = $row["marca"] . " " . $row["modelo"] . " " . $row["tonelaje"];
-    }
 
-    $importe = $cantidad * $precio_unitario;
+    $importe = $cantidad * floatval($data["precio_total"]);
+    $impuesto = $cantidad * floatval($data["impuesto"]);
 
-    $insert = "INSERT INTO detalle_preventa_tmp(id,
-                                            descripcion,
-                                            cantidad,
-                                            precio_unitario,
-                                            importe,
-                                            producto_id,
-                                            user_id) VALUES(null, ?,?,?,?,?,?)";
+    $insert = "INSERT INTO carrito_compra(id,
+                                          producto_id,
+                                          cantidad,
+                                          precio,
+                                          impuesto,
+                                          importe,
+                                          cliente_id,
+                                          usuario_id,
+                                          descripcion) VALUES(null, ?,?,?,?,?,?,?,?)";
     $resp = $con->prepare($insert);
-    $resp->execute([$descripcion, $cantidad, $precio_unitario, $importe, $id_producto, $_SESSION["id"]]);
-    
-    $id_detalle = $con->lastInsertId();
-
-    
-  
-    $response = array("status"=> true, "mensj"=>"Los datos se insertaron correctamente");
+    $resp->execute([$id_producto, $cantidad, $data["precio_total"],$impuesto, $importe, $cliente, $_SESSION["id"],$data["descripcion"]]);
+    $resp->closeCursor();
+    $response = array("status"=> true, "mensj"=>"Los datos se insertaron correctamente", "data"=>$data);
     
 
     }else if($count > 0){
 
-        $contar = "SELECT * FROM detalle_preventa_tmp WHERE producto_id = ? AND user_id = ?";
+        $contar = "SELECT * FROM carrito_compra WHERE producto_id = ? AND usuario_id = ?";
         $re = $con->prepare($contar);
         $re->execute([$id_producto, $_SESSION["id"]]);
 
@@ -60,9 +67,9 @@
         
 
         $nueva_cantidad = $cantidad + $cantidad_actual;
-        $nuevo_importe = $nueva_cantidad * $precio_unitario;
+        $nuevo_importe = $nueva_cantidad * $data["precio_total"];
 
-        $update = "UPDATE detalle_preventa_tmp SET cantidad = ?, importe = ? WHERE producto_id = ? AND user_id = ?";
+        $update = "UPDATE carrito_compra SET cantidad = ?, importe = ? WHERE producto_id = ? AND usuario_id = ?";
         $re = $con->prepare($update);
         $re->execute([$nueva_cantidad, $nuevo_importe, $id_producto, $_SESSION["id"]]);
 
@@ -71,34 +78,11 @@
     }
 
 
-    //Trayendo series
-    foreach ($series as $key => $value) {
-        $consultar = "SELECT * FROM series WHERE id = ?";
-        $resp = $con->prepare($consultar);
-        $resp->execute([$value]);
+   
 
-        while ($row = $resp->fetch()) {
-            $evap = $row["serie_evaporizador"];
-            $cond = $row["serie_condensador"];
-
-            $insertNS = "INSERT INTO detalle_series_tmp(id,
-                                                       serie_condensador,
-                                                       serie_evaporizador,
-                                                       id_detalle,
-                                                       serie_id,
-                                                       user_id) VALUES(null, ?,?,?,?,?)";
-            $resp = $con->prepare($insertNS);
-            $resp->execute([$cond, $evap, $id_detalle, $value, $_SESSION["id"]]);
-        
-
-        }
-
-        
-    }
-
-    $importe  = traerImporte($con);
-        $response["importe"] = $importe;
+    /* $importe  = traerImporte($con);
+        $response["importe"] = $importe;*/
         echo json_encode($response, JSON_UNESCAPED_UNICODE);
-
+ 
 
 ?>     

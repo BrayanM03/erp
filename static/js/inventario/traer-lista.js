@@ -12,19 +12,30 @@ $(document).ready(function () {
         },
         responsive: true,
         order: [0, 'desc'],
+        autoWidth: true,
+        columnsDefs: [
+          {width: '340px', target: 2}
+        ],
         columns:  [ 
             { data:0, title:'#' },
             { data:1, title:'Codigo' },
-            { data:2, title:'Descripción' },
+            { data:2, title:'Descripción', className:"celda-desc"/* , render: (row)=>{
+              return `<div style="width:280px; word-break:break-word;"><p>${row[2]}<p><div>`;
+            } */},
             { data:5, title:'Costo' },
             { data:6, title:'Precio' },
             { data:7, title:'Stock' },
             { data:8, title:'Estatus' },
             { data:14, title:'Fecha' },
             { data:15, title:'Sat' },
-            { data:12, title:'Imagen', render: ()=>{ 
-              return `<img src="./img/productos/NA.jpg" style="width:60px; border-radius:5px; border:1px solid 	#B4B2B1">`;}},
-            { data:null, title:'Opciones', render: function(row){
+            { data:null, title:'Imagen', render: (row)=>{ 
+              if(row[12] == "NA" || row[12] == null || row[12] == undefined){
+                $src = "NA"
+              }else{
+                $src = row[12]
+              }
+              return `<img src="./img/productos/${$src}.jpg" class="img-product" style="">`;}},
+            /* { data:null, title:'Opciones', render: function(row){
                 return `
                 <div class='row'>
                     <div class='col-12 col-md-12'>
@@ -33,15 +44,21 @@ $(document).ready(function () {
                     </div>
                 </div>
                 `
-            }}
+            }} */
         ],
         
             language: language_options,
-    
-
-        
+      
         
     });
+
+    $('#example tbody').on('contextmenu', 'tr', function () {
+      var data = tabla.row($(this)).data();
+      let id_remision = data[0];
+      //console.log(data[3] + "'s salary is: " + data[0]);
+      contextualMenu(data[0])
+      $("#ver-item").attr("onclick", `verRemision(${id_remision})`)
+});
 });
 
 function editarProducto(id){

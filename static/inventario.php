@@ -27,6 +27,8 @@ if (empty($_SESSION["id"])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css" />
+    <link rel="stylesheet" href="./css/estilos-tabla.css">
+    <link rel="stylesheet" href="css/contextual-menu.css">
 
 </head>
 
@@ -78,6 +80,11 @@ if (empty($_SESSION["id"])) {
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-3">
+                                <?php include_once('vistas/general/contextual-menu-inventory.php'); ?>
+
+
+                            </div>
                         </div>
                     </div>
 
@@ -125,6 +132,7 @@ if (empty($_SESSION["id"])) {
 
     <!-- Mis scripts -->
     <script src="js/inventario/traer-lista.js"></script>
+    <script src="js/contextual-menu/contextual-menu.js"></script>
     <!-- <script src="js/clientes/traer-lista.js"></script>
     <script src="js/clientes/eliminar-cliente.js"></script>
 

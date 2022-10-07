@@ -69,7 +69,7 @@
                             <div class="row mb-3">
                                 <div class="col-12 col-md-6">
                                     <label for="cantidad">Cantidad</label>
-                                    <input class="form-field" value="5" type="number" placeholder="0" name="cantidad" id="cantidad">
+                                    <input class="form-field" type="number" placeholder="0" name="cantidad" id="cantidad">
                                 </div>
             
                                 <div class="col-12 col-md-6">
@@ -84,13 +84,13 @@
                             <div class="row mb-3 justify-content-between">
                                 <div class="col-12 col-md-3">
                                     <label for="costo">Costo</label>
-                                    <input class="form-field" value="500" placeholder="0.00" name="costo" id="costo" type="number">
+                                    <input class="form-field" placeholder="0.00" name="costo" id="costo" type="number">
                                 </div>
                                 <div class="col-4 col-md-3">
                                     <label for="precio-base">Precio base</label>
                                     <div class="row">
                                      <div class="col-9 col-md-9">
-                                     <input class="form-field" value="700" placeholder="0.00" name="precio-base" id="precio-base" type="number">
+                                     <input class="form-field" placeholder="0.00" name="precio-base" id="precio-base" type="number">
                                      </div>  
                                      <div class="col-3 col-md-3">
                                      <i class="fa-solid fa-plus mt-3" style="color:#20c997;"></i>
@@ -106,7 +106,7 @@
                                      <div class="col-9 col-md-9">
                                      <select class="form-field" name="impuesto" id="impuesto" impuesto="">
                                         <option value="0">Sin desglosar</option>
-                                        <option value="8">IVA 8%</option>
+                                        <option value="8" selected>IVA 8%</option>
                                         <option value="16">IVA 16%</option>
                                     </select> 
                                      </div>  
@@ -117,14 +117,14 @@
                                 </div>
                                 <div class="col-4 col-md-3">
                                     <label for="precio-total">Precio total</label>
-                                    <input class="form-field" value="700" placeholder="0.00" name="precio-total" id="precio-total" type="number">
+                                    <input class="form-field" placeholder="0.00" name="precio-total" id="precio-total" type="number">
                                 </div>
                             </div>
 
                             <div class="row mb-3">
                                 <div class="col-12 col-md-12">
                                     <label for="descripcion">Descripción</label>
-                                    <textarea autocapitalize="sentences" class="form-field" placeholder="Escribe una descripción del producto" id="descripcion">SSD 120GB Adata</textarea>    
+                                    <textarea autocapitalize="sentences" class="form-field" placeholder="Escribe una descripción del producto" id="descripcion"></textarea>    
                                 </div>
                             </div>
 

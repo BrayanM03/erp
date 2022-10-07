@@ -121,8 +121,9 @@ if (empty($_SESSION["id"])) {
 
     <!-- Mis scripts -->
     <script src="js/nueva-orden/seleccionar-cliente.js"></script>
-    <script src="js/nueva-orden/seleccionar-producto.js"></script>
+    <script src="js/nueva-orden/carrito.js"></script>
     <script src="js/nueva-orden/preventa.js"></script>
+    <script src="js/nueva-orden/paginador.js"></script>
     <script src="js/nueva-orden/registro-ordenes.js"></script>
   
     <script>
