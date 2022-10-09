@@ -74,7 +74,7 @@
                                     </ul>
                                     <div class="row">
                                         <div class="col-12 btn-vender">
-                                        <div class="btn btn-success">Vender</div>
+                                        <div class="btn btn-success" onclick="realizarVenta()" id="btn-vender">Vender</div>
                                         </div>
                                     </div>
                                 </div>

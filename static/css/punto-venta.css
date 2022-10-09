@@ -295,6 +295,13 @@
     color: aquamarine;
 }
 
+#btn-vender{
+    height:41.5px; 
+    display:flex;
+    align-items: center;
+    justify-content:center;
+}
+
 
 
 

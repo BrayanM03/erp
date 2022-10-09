@@ -174,8 +174,36 @@ function elegirCant(product_id, stock) {
       html: `
         <p>¿Cuantos productos agregar?<p><br>
         <span>Stock actual: <b>${stock}</b></span><br>
-        <input class="form-control" type="text" placeholder="0" id="cantidad_ingresada">
+        <input class="form-control" type="number" placeholder="0" id="cantidad_ingresada"><br>
+
+        <span class="mt-3;">¿Aplicar descuento?</span>
+        <select class="form-control" id="sel-descuentos">
+            <option value="null">No aplicar descuento</option>
+            <option value="unidad">Descuento unitario</option>
+            <option value="porcentaje">Descuento porcentual</option>
+        <select><br>
+        <div id="area-control-descuentos"></div>
       `,
+      didOpen: ()=>{
+        let sel_desc = $("#sel-descuentos")
+        let area = $("#area-control-descuentos");
+
+        sel_desc.on("change", function(e) {
+          if(sel_desc.val() == "unidad"){
+            area.empty().append(`
+              <input class="form-control" type="number" id="unidad-desc" placeholder="Escribe una cantidad para descontar">
+            `)
+          }else if(sel_desc.val() == "porcentaje"){
+            area.empty().append(`
+            <input class="form-control" type="number" id="porcentaje-desc" placeholder="Escribe un porcentaje para descontar">
+            `)
+
+          }else{
+            area.empty()
+          }
+        })
+         
+      },
       confirmButtonText: "Agregar",
       preConfirm: ()=>{
         let cantidad = document.getElementById("cantidad_ingresada").value;
@@ -187,12 +215,22 @@ function elegirCant(product_id, stock) {
       }
     }).then((respo)=>{
       let cantidad = document.getElementById("cantidad_ingresada").value;
-      let cliente = 26;
+      let tipoDescuento = document.getElementById("sel-descuentos").value;
+
+      //Validando descuento
+       if(tipoDescuento == "unidad"){
+        descuento = document.getElementById("unidad-desc").value
+      }else if(tipoDescuento == "porcentaje"){
+        descuento = document.getElementById("porcentaje-desc").value
+      }else{
+        descuento = 0
+      }
+      
        if(respo.isConfirmed){
           $.ajax({
             type: "POST",
             url: "../servidor/nueva-orden/agregar-preventa.php",
-            data: {"id_product": product_id, "cantidad": cantidad, "cliente": cliente},
+            data: {"id_product": product_id, "cantidad": cantidad, "tipo_descuento": tipoDescuento, "descuento": descuento},
             dataType: "JSON",
             success: function (response) {
              console.log(response);

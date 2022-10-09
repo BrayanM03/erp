@@ -4,59 +4,33 @@
     include '../database/conexion.php';
     
     date_default_timezone_set("America/Matamoros");
-
-    
+    $usuario_id = $_SESSION["id"]; 
 
     //Se cuenta el detalle de preventa para insertarlo en el detalle de ordenes
-    $contar = "SELECT COUNT(*) FROM detalle_preventa_tmp WHERE user_id = ?";
+    $contar = "SELECT COUNT(*) FROM carrito_compra WHERE usuario_id = ?";
     $re = $con->prepare($contar);
-    $re->execute([ $_SESSION["id"]]);
+    $re->execute([$usuario_id]);
     $count = $re->fetchColumn();
 
 
     if($count > 0) {
 
-        $id_direccion = $_POST['id_direccion'];
-    $id_direccion == null ? $id_direccion = 0 : $id_direccion= $id_direccion;
-    $hora_inicio = date('h:i:s a');
-    $fecha_inicio = date('Y-m-d');
-    $id_cliente = $_POST['id_cliente'];
-    $tipo = $_POST['tipo']; // Ordenes tipo 1 cerradas al momento
-    $total = $_POST['total'];
-
-    switch ($tipo) {
-        case 1:
-            $estatus = "Cerrada";
-            $fecha_cierre = $fecha_inicio;
-            $hora_cierre = $hora_inicio;
-            $tabla_origen = 'inventario';
-            break;
-
-        
-        default:
-            # code...
-            break;
-    }
-
-   
+    $hora = date('h:i:s a');
+    $fecha= date('Y-m-d');
+    $id_cliente = $_POST['cliente'];
+    $estatus = "Realizada";
 
     //Insertando en tabla ordenes
     $insertar = "INSERT INTO ordenes(id, 
                                      cliente_id, 
-                                     direccion_id,
-                                     fecha_inicio,
-                                     hora_inicio,
-                                     fecha_cierre,
-                                     hora_cierre,
-                                     total,
+                                     fecha,
+                                     hora,
                                      estatus,
-                                     tipo,
-                                     usuario_id) VALUES(null, ?,?,?,?,?,?,?,?,?,?)";
+                                     usuario_id) VALUES(null, ?,?,?,?,?)";
 
 
     $re = $con->prepare($insertar);
-    $re->execute([$id_cliente, $id_direccion, $fecha_inicio, $hora_inicio, $fecha_cierre, $hora_cierre,
-                  $total, $estatus, $tipo, $_SESSION["id"]]);
+    $re->execute([$id_cliente, $fecha, $hora, $estatus, $usuario_id]);
 
     //Se finaliza la insercion de la orden
 
@@ -65,9 +39,10 @@
     
 
         $response = array("status"=> true, "mensj"=>"Venta generada con exito", "id_orden"=>$id_orden);
-        $consultar = "SELECT * FROM detalle_preventa_tmp WHERE user_id = ?";
+
+        $consultar = "SELECT * FROM carrito_compra WHERE usuario_id = ?";
         $resp = $con->prepare($consultar);
-        $resp->execute([$_SESSION["id"]]);
+        $resp->execute([$usuario_id]);
 
         $utilidad = 0;
         $suma_utilidad = 0;
@@ -79,9 +54,8 @@
             $response["partidas"] = $productos;
             //Obtenemos la utilidad de cada partida
             
-            if($tipo == 1){
                 
-                $utilidad = "SELECT costo FROM $tabla_origen WHERE id = ?";
+                $utilidad = "SELECT costo FROM inventario WHERE id = ?";
                 $re = $con->prepare($utilidad);
                 $re->execute([ $row['producto_id']]);
                 $costo_producto = $re->fetchColumn();
@@ -106,7 +80,7 @@
                 $respuesta->execute([$stock_nuevo, $row['producto_id']]);
 
 
-            }     
+                
 
             //Insertando los datos
 
@@ -127,40 +101,6 @@
             $row["importe"], $utilidad_neta, $row["producto_id"], $row["user_id"], $id_orden]);
 
         }
-
-        //Actualizando series
-                //Trayendo serie
-                $consult_serie = "SELECT * FROM detalle_series_tmp WHERE user_id = ?";
-                    $rep_s = $con->prepare($consult_serie);
-                    $rep_s->execute([$_SESSION['id']]);
-                    $estatus_serie = "Vendido";
-
-                    while ($fila_s = $rep_s->fetch()) {
-
-                        $serie_id = $fila_s["serie_id"]; 
-                        $update_serie = "UPDATE series SET estatus = ? WHERE id =?";
-                        $respuesta_s = $con->prepare($update_serie);
-                        $respuesta_s->execute([$estatus_serie, $serie_id]);
-                        $respuesta_s->closeCursor();
-
-                        //Actualizar detalle de orden
-                        $insertar = "INSERT INTO detalle_series(id, 
-                                                 serie_condensador, 
-                                                 serie_evaporizador,
-                                                 detalle_id,
-                                                 serie_id,
-                                                 user_id,
-                                                 order_id)
-                                                VALUES (null, ?,?,?,?,?,?)";
-
-
-                        $re = $con->prepare($insertar);
-                        $re->execute([$fila_s["serie_condensador"], $fila_s["serie_evaporizador"], $fila_s["id_detalle"], 
-                        $fila_s["serie_id"], $fila_s["user_id"], $id_orden]);
-
-
-                    }
-                    $rep_s->closeCursor();
 
         $updt = "UPDATE ordenes SET utilidad = ? WHERE id =?";
         $res = $con->prepare($updt);

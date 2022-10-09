@@ -124,7 +124,7 @@ if (empty($_SESSION["id"])) {
     <script src="js/nueva-orden/carrito.js"></script>
     <script src="js/nueva-orden/preventa.js"></script>
     <script src="js/nueva-orden/paginador.js"></script>
-    <script src="js/nueva-orden/registro-ordenes.js"></script>
+    <script src="js/nueva-orden/realizar-venta.js"></script>
   
     <script>
         
