@@ -11,11 +11,17 @@
     $image_path = "P$producto_id/P1.jpg";
     $countfiles = count($_FILES);
 
+    $folder = "../../static/img/Productos/P$producto_id";
+
+    if (!file_exists($folder)) {
+        mkdir($folder, 0777, true);
+    }
+
     
     if (move_uploaded_file($_FILES["image"]["tmp_name"], "$folder/".$_FILES['image']['name'])) {
         $updt = "UPDATE inventario SET imagen = ? WHERE id = ?";
         $ree = $con->prepare($updt);
-        $ree->execute([$producto_id]);
+        $ree->execute([$image_path, $producto_id]);
         $mensaje = "Imagen subida/cambiada correctamente";
         $estatus = true;
     }else{

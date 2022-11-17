@@ -132,6 +132,11 @@
  
    if ($total > 0) {
 
+    $upd = "UPDATE clientes SET nombre =?, telefono =?, rfc = ?, contacto =? WHERE id = ?";
+    $rr = $con->prepare($upd);
+    $rr->execute([$nombre, $telefono, $rfc, $contacto, $id_cliente]);
+    $rr->closeCursor();
+
 
     $post_total_direcciones = count($direcciones);
     $post_total_correos =  count($correos);
@@ -309,6 +314,7 @@
    eliminarDatos($id_cliente, $con, "detalle_cuenta_bancaria");
     
     print_r(1);
+    //echo json_encode($_POST, JSON_UNESCAPED_UNICODE);
 
 
    }

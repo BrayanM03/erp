@@ -54,7 +54,7 @@ if ($_POST) {
     $last_id = $con->lastInsertId(); 
 
     $folder_product = "P" . $last_id;
-    $folder = "../../static/img/productos/$folder_product";
+    $folder = "../../static/img/Productos/$folder_product";
 
     if (!file_exists($folder)) {
         mkdir($folder, 0777, true);
@@ -88,6 +88,8 @@ if ($_POST) {
         }
         $re->closeCursor();
   
+    }else{
+        $data = [];
     }
    
     $response = array("status"=>true, "message"=> "Producto agregado correctamente", "id"=>$last_id, "data"=>$data);

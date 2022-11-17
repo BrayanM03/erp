@@ -77,7 +77,7 @@ function formatResultProducts(repo){
       `
       <div class="row">
         <div class="col-12 col-md-2">
-           <img src="img/productos/P${repo.id}/P1.jpg" style="width:60px;border-radius:8px;">
+           <img src="img/Productos/P${repo.id}/P1.jpg" style="width:60px;border-radius:8px;">
         </div>
         <div class="col-12 col-md-10 text-start">
           <div class="row">

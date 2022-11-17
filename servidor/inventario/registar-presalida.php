@@ -8,8 +8,7 @@ if ($_POST) {
     $id_producto = $_POST['id_producto'];
     $codigo = $_POST["codigo"];
     $descripcion = $_POST["descripcion"];
-    $categoria = $_POST["categoria"];
-    $subcategoria = $_POST["subcategoria"];
+ 
     $cantidad = $_POST["cantidad"];
 
     if($cantidad !== ""){

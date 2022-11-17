@@ -25,7 +25,7 @@ $table = 'detalle_cotizacion_tmp';
 
 // Table's primary key
 $primaryKey = 'id';
-$sucursal_id = $_GET['sucursal_id'];
+//$sucursal_id = $_GET['sucursal_id'];
 $usuario = $_SESSION['id'];
 
 

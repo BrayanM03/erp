@@ -25,7 +25,6 @@ $table = 'detalle_salida_tmp';
 
 // Table's primary key
 $primaryKey = 'id';
-$sucursal_id = $_GET['sucursal_id'];
 $usuario = $_SESSION['id'];
 
 

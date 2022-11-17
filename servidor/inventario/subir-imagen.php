@@ -8,7 +8,7 @@
   
 
     $folder_product = "P" . $producto_id;
-    $folder = "../../static/img/productos/$folder_product";
+    $folder = "../../static/img/Productos/$folder_product";
 
     if (!file_exists($folder)) {
         mkdir($folder, 0777, true);

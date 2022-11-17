@@ -8,7 +8,7 @@ if ($_POST) {
     $id_producto = $_POST['id_producto'];
     $codigo = $_POST["codigo"];
     $descripcion = $_POST["descripcion"];
-    $categoria = $_POST["categoria"];
+    //$categoria = $_POST["categoria"];
     $subcategoria = $_POST["subcategoria"];
     $cantidad = $_POST["cantidad"];
     $precio = $_POST["precio"];
@@ -52,7 +52,7 @@ if ($_POST) {
     
     
         }else{
-            $importe = ($precio * $cantidad) - $descuento;
+            $importe = (floatval($precio) * intval($cantidad)) - $descuento;
 
             $insercion = "INSERT INTO detalle_cotizacion_tmp(id, 
             codigo, 

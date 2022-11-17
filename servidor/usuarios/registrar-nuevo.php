@@ -34,7 +34,7 @@ if($_POST){
                                                         estatus,
                                                         fecha_ingreso,
                                                         usuario,
-                                                        contraseña) VALUES(null,?,?,?,?,?,?,?)");
+                                                        contrasena) VALUES(null,?,?,?,?,?,?,?)");
          $ingresar->execute($datos);
          $ingresar->closeCursor();
          print_r(1);                                                  

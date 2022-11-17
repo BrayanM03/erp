@@ -23,7 +23,7 @@ if ($_POST) {
         $sentencia = $delete->eliminarDato("inventario", $id_producto, $has_relation, "precios", $relacion_id, $con);
 
         //Remover archivos de fotos
-        $dir = "../../static/img/productos/P$id_producto";
+        $dir = "../../static/img/Productos/P$id_producto";
         deleteDir($dir);
 
         echo json_encode($sentencia, JSON_UNESCAPED_UNICODE);

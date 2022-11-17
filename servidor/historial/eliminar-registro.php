@@ -12,7 +12,7 @@ $id_reg = $_POST["id_reg"];
 switch($tipo){
     case 'salidas':
     $sentencia = $delete->eliminarDato("salidas", $id_reg, true, "detalle_salida", "salida_id", $con);
-    if($se)
+   
     break;
 }
 
