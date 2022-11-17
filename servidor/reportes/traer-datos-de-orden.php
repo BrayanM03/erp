@@ -7,7 +7,7 @@ if ($_POST) {
     $key = $_POST['id_orden'];
     $tabla = $_POST['tabla'];
     $indicador = $_POST['indicador'];
-
+    $tipo = $_POST['tipo'];
     $tabla_detalle = $_POST['tabla_detalle'];
     $indicador_detalle = $_POST['indicador_detalle'];
     
@@ -27,13 +27,29 @@ if ($_POST) {
             $hora = $row['hora'];
             $usuario_nombre = $row['usuario_nombre'];
             $sucursal_id = $row['sucursal_id'];
+            $cliente_id = $row['id_cliente'];
+            $comentario = $row['comentario'];
+            $correo = $row['correo'] ? $row['correo'] : '';
+            $direccion = $row['direccion'] ? $row['direccion'] : '';
+            $telefono = $row['telefono'] ? $row['telefono'] : '';
 
-           
+            //Totales 
+            $subtotal = $row['subtotal'] ? $row['subtotal'] : '';
+            $descuento = $row['descuento'] ? $row['descuento'] : '';
+            $tasa = $row['tasa'] ? $row['tasa'] : '';
+            $impuesto = $row['impuesto'] ? $row['impuesto'] : '';
+            $neto = $row['neto'] ? $row['neto'] : '';
 
-            /* $data['data'] = array(""); */
+            if($tipo == "salida"){
+                $datos_cliente = obtenerDatosCliente($con, $cliente_id);
+                $response["datos_cliente"] = $datos_cliente[1];
+                $response["comentario"] = $comentario;
+            }
         }
 
         $datos_sucursal = obtenerDatosSucursal($con, $sucursal_id); //
+        
+        
 
         $response["folio"] = $key;
         $response["fecha"] =     $fecha;
@@ -42,8 +58,18 @@ if ($_POST) {
         $response["datos_sucursal"] = $datos_sucursal;
         $response["id_sucursal"] = $sucursal_id;
         $response['status'] =    true;
+        $response['post'] =    $_POST;
         $response['mensj'] =     "Se encontraron datos";
+        $response["direccion"] = $direccion;
+        $response["telefono"] = $telefono;
+        $response["correo"] = $correo;
 
+        //Ttotales
+        $response['subtotal'] = $subtotal;
+        $response["tasa"] = $tasa;
+        $response["impuesto"] = $impuesto;
+        $response["descuento"] = $descuento;
+        $response["neto"] = $neto;
 
         //BUSCANDO LOS DETALLES DE LA ORDENES
 
@@ -64,14 +90,23 @@ if ($_POST) {
                 $item_descripcion = $fila_orden["concepto"];
                 $item_cant = $fila_orden["cantidad"];
                 $producto_id = $fila_orden["producto_id"];
-                $usuario_id = $fila_orden["usuario_id"];
+                $precio_unitario = $fila_orden["precio_unitario"] ? $fila_orden["precio_unitario"] : null;
+                $descuento = $fila_orden["descuento"] ? $fila_orden["descuento"] : null;
+                $importe = $fila_orden["importe"] ? $fila_orden["importe"] : null;
+                $usuario_id = $fila_orden["usuario_id"] ? $fila_orden["usuario_id"] : null;
 
                 $detalle_orden[] = array("codigo" => $codigo, 
                                         "descripcion" => $item_descripcion, 
-                                         "cantidad" => $item_cant);
+                                         "cantidad" => $item_cant,
+                                        "precio_unitario" => $precio_unitario,
+                                        "descuento"=> $descuento,
+                                        "importe"=> $importe);
                 
             }
             $response["detalle_orden"] = $detalle_orden;
+        }else{
+            $response["detalle_orden"] = null;
+
         }
 
 
@@ -79,6 +114,7 @@ if ($_POST) {
     }else{
         $response['status'] = false;
         $response['mensj'] = "No se encontro un elemento coincidente";
+        $response["psot"] = $_POST;
     }
 
     echo json_encode($response, JSON_UNESCAPED_UNICODE);
@@ -105,6 +141,25 @@ function obtenerDatosSucursal($con, $sucursal_id){
         return "No se encontro una sucursal coincidente";
     }
 
+}
+
+function obtenerDatosCliente($con, $cliente_id){
+    $queryCount = "SELECT count(*) FROM clientes WHERE id = ?";
+    $resp = $con->prepare($queryCount);
+    $resp->execute([$cliente_id]);
+    $total = $resp->fetchColumn();
+
+    if($total > 0){
+        $selectStore = "SELECT * FROM clientes WHERE id = ?";
+        $resp = $con->prepare($selectStore);
+        $resp->execute([$cliente_id]);
+        while ($row = $resp->fetch()) {
+            $data = $row;
+        }
+        return $data;
+    }else{
+        return "No se encontro un cliente coincidente";
+    }
 }
 
 ?>

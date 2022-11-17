@@ -3,31 +3,19 @@
 
     session_start();
     include '../database/conexion.php';
-    include '../nueva-orden/traer-importe.php';
     
     date_default_timezone_set("America/Matamoros");
 
-    $id_preventa = $_POST['id_preventa'];
+    $id_usuario = $_SESSION['id'];
 
-    $consulta = "SELECT producto_id FROM detalle_preventa_tmp WHERE id = ?";
+
+    $consulta = "DELETE FROM carrito_compra WHERE usuario_id = ?";
     $res = $con->prepare($consulta);
-    $res->execute([$id_preventa]); 
-    $producto_id = $res->fetchColumn();
-    $res->closeCursor();
-
-    $consulta = "DELETE FROM detalle_preventa_tmp WHERE id = ?";
-    $res = $con->prepare($consulta);
-    $res->execute([$id_preventa]); 
-
-    $consulta = "DELETE FROM detalle_series_tmp WHERE id_detalle = ?";
-    $res = $con->prepare($consulta);
-    $res->execute([$id_preventa]); 
+    $res->execute([$id_usuario]); 
 
 
 
-    $response = array("status"=> 1, "product_id"=> $producto_id);
-    $importe  = traerImporte($con);
-    $response["importe"] = $importe;
+    $response = array("status"=> true, "mensaje"=> "Carrito vaciado");
     
     echo json_encode($response, JSON_UNESCAPED_UNICODE);
 

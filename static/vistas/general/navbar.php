@@ -6,18 +6,78 @@
 				<div class="navbar-collapse collapse">
 					<ul class="navbar-nav navbar-align">
 						<li class="nav-item dropdown">
+
+							<?php
+								//Trayendo informacion del carrito
+								if(!isset($_SESSION)) 
+								{ 
+									session_start(); 
+								} 
+								include './../servidor/database/conexion.php';
+								$usuario_id = $_SESSION["id"];
+								$consultar = "SELECT COUNT(*) FROM carrito_compra WHERE usuario_id";
+								$res = $con->prepare($consultar);
+								$res->execute([$usuario_id]);
+								$total_items = $res->fetchColumn();
+								$res->closeCursor();
+							
+							?>
 							<a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-bs-toggle="dropdown">
 								<div class="position-relative">
 									<i class="align-middle" data-feather="shopping-cart"></i>
-									<span class="indicator">4</span>
+									<span class="indicator"><?php echo $total_items ?></span>
 								</div>
 							</a>
+							
 							<div class="dropdown-menu dropdown-menu-lg dropdown-menu-end py-0" aria-labelledby="alertsDropdown">
 								<div class="dropdown-menu-header">
-									4 articulos agregados
+									<?php 
+									if($total_items == 0 ){
+										echo "No hay articulos agregados";
+									}else if($total_items ==1){
+										echo "$total_items articulo agregado";
+									}else{
+										echo "$total_items articulos agregados";
+									}
+									?> 
 								</div>
 								<div class="list-group">
-									<a href="#" class="list-group-item">
+
+								<?php 
+									if($total_items > 0){
+										$consultar = "SELECT * FROM carrito_compra WHERE usuario_id";
+										$res = $con->prepare($consultar);
+										$res->execute([$usuario_id]);
+										while($row = $res->fetch()){
+											$cantidad = $row['cantidad'];
+											$importe = $row['importe'];
+											$descripcion = $row['descripcion'];
+											$producto_id = $row['producto_id'];
+										
+
+										?>
+
+										<a href="#" class="list-group-item">
+											<div class="row g-0 align-items-center justify-content-between">
+												<div class="col-3 d-flex justify-content-center">
+													<img src="./img/Productos/P<?php echo $producto_id; ?>/P1.jpg" style="width:90%; height:66px; border-radius:7px; border:1px solid gray;" />
+												</div>
+												<div class="col-9">
+													<div class="mr-2">
+													<div class="text-dark">$<?php echo $importe ?></div>
+													<div class="text-muted small mt-1"><?php echo $descripcion ?></div>
+													<div class="text-muted small mt-1">Cantidad: <?php echo $cantidad ?></div>
+													</div>
+												</div>
+											</div>
+										</a>
+										
+										<?php
+											}
+											$res->closeCursor();
+										}
+										?>
+									<!-- <a href="#" class="list-group-item">
 										<div class="row g-0 align-items-center">
 											<div class="col-2">
 												<i class="text-danger" data-feather="alert-circle"></i>
@@ -63,10 +123,11 @@
 												<div class="text-muted small mt-1">14h ago</div>
 											</div>
 										</div>
-									</a>
+									</a> -->
 								</div>
+
 								<div class="dropdown-menu-footer">
-									<a href="#" class="text-muted">Show all notifications</a>
+									<a href="./nueva-orden.php" class="text-muted">Ir a punto de venta</a>
 								</div>
 							</div>
 						</li>

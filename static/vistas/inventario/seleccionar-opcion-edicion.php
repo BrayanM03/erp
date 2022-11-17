@@ -27,8 +27,8 @@
                 <div class="col-12 col-md-4">
 
                         <div class="option-card" id="card-aire" onclick="clickEditarProducto()">
-                            <img src="./img/paperwork.png" class="animate__animated" id="imagen-aire" alt="imagen-aire" style="width:120px;">
-                            <p class="mt-3">Editar datos generales del aire acondionado</p>
+                            <img src="./img/compu.png" class="animate__animated" id="imagen-aire" alt="imagen-aire" style="width:120px;">
+                            <p class="mt-3">Editar datos generales del producto</p>
 
                         </div>
                 
@@ -36,9 +36,8 @@
 
                 <div class="col-12 col-md-4">
                         <div class="option-card" id="card-check" onclick="clickEditarSeries()">
-                                    <img src="./img/checklist.png" class="animate__animated" id="imagen-checklist" alt="imagen-cheklist" style="width:120px;">
-                                    <p class="mt-3">Agregar/editar series a clima ya existente</p>
-
+                                <img src="./img/checklist.png" class="animate__animated" id="imagen-checklist" alt="imagen-cheklist" style="width:120px;">
+                                 <p class="mt-3">Agregar/editar series a producto</p>
                         </div>
                 </div>
 

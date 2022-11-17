@@ -1,6 +1,6 @@
 <nav id="sidebar" class="sidebar js-sidebar">
     <div class="sidebar-content js-simplebar">
-        <a class="sidebar-brand" href="index.html">
+        <a class="sidebar-brand" href="index.php">
             <img src="./img/logo.jpg" alt="" style="width:80px; border-radius:7px; margin-right:1rem;">
             <span class="align-middle">Systechh</span>
         </a>
@@ -23,7 +23,7 @@
             </li>
 
             <li class="sidebar-item">
-                <a class="sidebar-link" href="#">
+                <a class="sidebar-link" href="nueva-cotizacion.php">
                     <i class="align-middle" data-feather="clipboard"></i> <span class="align-middle">Nueva cotización</span>
                 </a>
             </li>
@@ -40,7 +40,7 @@
                     <div id="collapseHistory" class="accordion-collapse collapse" style="margin-left:13px;" aria-labelledby="headingHistory" data-bs-parent="#accordionExample2">
                         <div class="accordion-body">
                             <li class="sidebar-item">
-                                <a class="sidebar-link" href="historial.php">
+                                <a class="sidebar-link" href="ordenes-venta.php">
                                     <i class="align-middle" data-feather="book"></i> <span class="align-middle">Ordenes</span>
                                 </a>
                             </li>
@@ -364,7 +364,11 @@
 
 
 
-
+            <li class="sidebar-item">
+                <a class="sidebar-link" href="exportar-producto.php">
+                    <i class="align-middle" data-feather="minus-circle"></i> <span class="align-middle">Exportar mercancia</span>
+                </a>
+            </li>
 
 
 

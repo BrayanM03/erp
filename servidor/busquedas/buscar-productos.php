@@ -32,6 +32,7 @@ if ($_POST) {
     }else{
         $data['status'] = false;
         $data['mensj'] = "No se encontro un elemento coincidente";
+        $data['data'][] = array("Agregar nuevo producto", 'status'=>false);
     }
 
     echo json_encode( $data['data'], JSON_UNESCAPED_UNICODE);

@@ -16,6 +16,9 @@ function clickNuevoProducto(){
         costo : "",
         precio : ""}, function (param) {
 
+          activarNavTab()
+          eliminarPrecioTMP(0, 'total')
+
           //Agregando eventos
           $("#categoria").change(()=>{
             let categoria = $("#categoria").val();
@@ -113,7 +116,6 @@ function clickEditarProducto(e) {
 
     let producto_id = getParameterByName("id_product");
     let sucursal_id = getParameterByName("sucursal");
-    let name = getParameterByName("name");
 
     $.ajax({
         type: "POST",
@@ -123,20 +125,115 @@ function clickEditarProducto(e) {
         success: function (response) {
 
             response['data'].forEach(element => {
-                data = {proveedor : element.proveedor,
+                data = {
                 id_producto: producto_id,
-                id_sucursal: sucursal_id,     
-                tonelaje: element.tonelaje,
-                modelo : element.modelo,
+                codigo: element.codigo,
+                descripcion: element.descripcion,
                 marca : element.marca,
-                cantidad : element.stock,
+                modelo : element.modelo,
                 costo : element.costo,
-                precio : element.precio}
+                precio_base : element.precio_base,
+                tasa : element.tasa,
+                impuesto: element.impuesto,
+                precio_total : element.precio_total,
+                stock : element.stock,
+                estatus : element.estatus,
+                sucursal : element.sucursal,
+                categoria: element.categoria,
+                subcategoria: element.subcategoria,
+                id_sucursal: sucursal_id,     
+                upc: element.upc,
+                fecha_ingreso: element.fecha_ingreso,
+                sat_key : element.sat_key
+              }
             });
-            console.log(data);
            
 
-            main_content.empty().load(`vistas/inventario/actualizar-datos-producto.php?store_id=${sucursal_id}&name=${name}`, data
+            main_content.empty().load(`vistas/inventario/actualizar-datos-producto.php?store_id=${sucursal_id}`, data, ()=>{
+              activarNavTab()
+
+              $("#categoria").change(()=>{
+                let categoria = $("#categoria").val();
+    
+                switch (categoria) {
+                    case "computacion":
+                            $("#subcategoria").prop("disabled", false).empty().css("background", "#FFF").css("color", "#99A3BA").append(`
+                            <option value="almacenamiento">Almacenamiento</option>
+                            <option value="almacenamiento">Accesorios</option>
+                            <option value="almacenamiento">Energia</option>
+                            <option value="almacenamiento">Equipos</option>
+                            <option value="almacenamiento">Gaming</option>
+                            <option value="almacenamiento">Mantenimiento</option>
+                            <option value="almacenamiento">Software</option>
+            
+                            `)
+                        break;
+            
+                        case "seguridad":
+                            $("#subcategoria").prop("disabled", false).empty().css("background", "#FFF").css("color", "#99A3BA").append(`
+                            <option value="cctv">CCTV</option>
+                            <option value="accesorios">Accesorios</option>
+                            <option value="control_acceso">Control de acceso</option>
+                            `)
+                        break;
+            
+                        case "impresion":
+                            $("#subcategoria").prop("disabled", false).empty().css("background", "#FFF").css("color", "#99A3BA").append(`
+                            <option value="consumibles">Consumibles</option>
+                            <option value="impresoras">Impresoras</option>
+                            `)
+                        break; 
+                        
+                        case "redes":
+                            $("#subcategoria").prop("disabled", false).empty().css("background", "#FFF").css("color", "#99A3BA").append(`
+                            <option value="cableado_estructurado">Cableado estructurado</option>
+                            <option value="conectividad">Conectividad</option>
+                            <option value="herramientas">Herramientas</option>
+                            <option value="telefonia">Telefonia</option>
+                            `)
+                        break;
+                        case "punto_de_venta":
+                            $("#subcategoria").prop("disabled", false).empty().css("background", "#FFF").css("color", "#99A3BA").append(`
+                            <option value="cajones">Cajones</option>
+                            <option value="impresoras_termicas">Impresoras termicas</option>
+                            <option value="escaners">Escaners</option>
+                            `)
+                        break;
+                
+                    default:
+                    $("#subcategoria").prop("disabled", true).empty().css("background", "#E7E3E3").css("color", "gray").append(`
+                            <option value="null">Elige una categoria primero</option>
+                            `)
+                        break;
+                }})
+    
+                $("#codigo").keyup(function(){
+                    let codigo = $("#codigo").val()
+                    validarCodigo(codigo)
+                })
+    
+                $("#precio-base").keyup(function(){
+                  
+                  let precio = precioTotal("base")
+                  
+                  $("#precio-total").val(precio)
+              })
+    
+              $("#impuesto").change(()=>{
+    
+                let precio = precioTotal("impuesto")
+                $("#precio-total").val(precio)
+              })
+    
+              $("#precio-total").keyup(()=>{
+    
+                let base = precioTotal("total")
+                $("#precio-base").val(base)
+              })
+
+              //Activando funcion principal de edicion de imagenes
+              dibujarCanvas()
+            }
             );
         }
     });
@@ -165,7 +262,9 @@ function RegresarAtras(vista){
     let name = getParameterByName("name");
 
     if(vista == 1){
-        main_content.empty().load(`vistas/inventario/seleccionar-tipo-agregar.php?store_id=${sucursal}&name=${name}`);
+        main_content.empty().load(`vistas/inventario/seleccionar-tipo-agregar.php?store_id=${sucursal}&name=${name}`,()=>{
+          eliminarPrecioTMP(0, 'total')
+        });
     }else if(vista == 2){
 
         main_content.empty().load(`vistas/inventario/nuevo-aire.php`, {

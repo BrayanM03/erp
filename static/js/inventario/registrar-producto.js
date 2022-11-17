@@ -95,7 +95,7 @@ function agregarProducto(){
      datosForm.append("sat", sat);
 
      
-     $.ajax({
+     $.ajax({ 
         type: "POST",
         url: "../servidor/inventario/registrar-producto.php",
         processData: false,
@@ -188,7 +188,6 @@ async function validarCodigo(codigo) {
         })
        .then(response => response.json())
        .then(data => {
-         console.log(data)
          if(data.status == true){
              $("#codigo").css("border", "1px solid green")
              $("#small_response").css("color", "green").removeClass("d-none").attr("valid", "true").text("Codigo disponible")

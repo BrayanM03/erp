@@ -107,7 +107,7 @@ function setPage(indicador_pag, array_products, pagina_actual){
             <div class="product-item" onclick="elegirCant(${element.id}, ${element.stock})">
                 <div class="product-head">
                     <span class="precio" id="precio">${precio_formateado}</span>
-                    <img src="img/Productos/P${element.id}/p1.jpg" class="product-img" alt="imagen de producto">
+                    <img src="img/Productos/P${element.id}/P1.jpg" class="product-img" alt="imagen de producto">
                 </div>
                 
                 <div class="product-body">
@@ -166,71 +166,71 @@ function setPage(indicador_pag, array_products, pagina_actual){
 
 
 }
-
+ 
 
 function elegirCant(product_id, stock) { 
     Swal.fire({
       icon: 'question',
       html: `
         <p>¿Cuantos productos agregar?<p><br>
-        <span>Stock actual: <b>${stock}</b></span><br>
+        <span>Stock disponible: <b id="stock_disponible">${stock}</b> - Stock en carrito: <b id="stock_carrito"></b></span><br>
         <input class="form-control" type="number" placeholder="0" id="cantidad_ingresada"><br>
 
-        <span class="mt-3;">¿Aplicar descuento?</span>
-        <select class="form-control" id="sel-descuentos">
-            <option value="null">No aplicar descuento</option>
-            <option value="unidad">Descuento unitario</option>
-            <option value="porcentaje">Descuento porcentual</option>
+        <span class="mt-3;">Elija precio a aplicar</span>
+        <select class="form-control" id="lista-precios">
+
         <select><br>
         <div id="area-control-descuentos"></div>
       `,
       didOpen: ()=>{
-        let sel_desc = $("#sel-descuentos")
-        let area = $("#area-control-descuentos");
+        $.ajax({
+          type: "POST",
+          url: "../servidor/nueva-orden/traer-precios.php",
+          data: {"product_id": product_id},
+          dataType: "JSON",
+          success: function (response) {
+            let lista_precios = $("#lista-precios")
+            $("#stock_carrito").text(response.total_carrito)
+            let stock_disp = $("#stock_disponible")
+            stock_disp.text(parseInt(stock_disp.text())-parseInt(response.total_carrito))
+          lista_precios.empty().append(`
+            <option value="base">${response.precio_principal.precio_base} - ${response.precio_principal.etiqueta}</option>
+          `)
 
-        sel_desc.on("change", function(e) {
-          if(sel_desc.val() == "unidad"){
-            area.empty().append(`
-              <input class="form-control" type="number" id="unidad-desc" placeholder="Escribe una cantidad para descontar">
+          if(response.data_precios !== "No se encontro información"){
+            response.data_precios.forEach(element => {
+              lista_precios.append(`
+              <option value="${element.id}">${element.precio_base} - ${element.etiqueta}</option>
             `)
-          }else if(sel_desc.val() == "porcentaje"){
-            area.empty().append(`
-            <input class="form-control" type="number" id="porcentaje-desc" placeholder="Escribe un porcentaje para descontar">
-            `)
-
-          }else{
-            area.empty()
+            });
           }
-        })
+          } 
+        });
+        
+
+        
          
       },
       confirmButtonText: "Agregar",
       preConfirm: ()=>{
         let cantidad = document.getElementById("cantidad_ingresada").value;
-        if(stock < cantidad){
+
+        if(parseInt($("#stock_disponible").text()) < cantidad){
           Swal.showValidationMessage(
             `La cantidad supera el stock`
           )
         }
       }
-    }).then((respo)=>{
+    }).then((respo)=>{ 
       let cantidad = document.getElementById("cantidad_ingresada").value;
-      let tipoDescuento = document.getElementById("sel-descuentos").value;
+      let dato_precios = document.getElementById("lista-precios").value;
 
-      //Validando descuento
-       if(tipoDescuento == "unidad"){
-        descuento = document.getElementById("unidad-desc").value
-      }else if(tipoDescuento == "porcentaje"){
-        descuento = document.getElementById("porcentaje-desc").value
-      }else{
-        descuento = 0
-      }
       
        if(respo.isConfirmed){
           $.ajax({
             type: "POST",
             url: "../servidor/nueva-orden/agregar-preventa.php",
-            data: {"id_product": product_id, "cantidad": cantidad, "tipo_descuento": tipoDescuento, "descuento": descuento},
+            data: {"id_product": product_id, "cantidad": cantidad, "dato_precios": dato_precios},
             dataType: "JSON",
             success: function (response) {
              console.log(response);

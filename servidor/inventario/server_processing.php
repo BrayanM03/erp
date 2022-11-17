@@ -28,7 +28,6 @@ $subcategoria = $_GET['subcategoria'];
 $table = "inventario_$categoria";
 
 
-
 // Array of database columns which should be read and sent back to DataTables.
 // The `db` parameter represents the column name in the database, while the `dt`
 // parameter represents the DataTables column identifier. In this case simple

@@ -26,7 +26,6 @@ function setPaginador(numProductos, cantPorPagina, id, indicador_pag, arreglo_pr
 
   for (let index = 0; index < numPaginas; index++) {
     pagIndex = index + 1
-    console.log(pag_actual);
     let clas_pag_activa = pag_actual === pagIndex ? "pag_activa" : ''
     paginator_body.innerHTML += `<li class="page-item"><a class="page-link ${clas_pag_activa}" onclick='goPage(${pagIndex}, ${JSON.stringify(arreglo_prod)})' href="#">${pagIndex}</a></li>`
     

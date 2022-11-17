@@ -18,6 +18,7 @@
     $hora = date('h:i:s a');
     $fecha= date('Y-m-d');
     $id_cliente = $_POST['cliente'];
+    $metodo_pago = $_POST['metodo_pago'];
     $estatus = "Realizada";
 
     //Insertando en tabla ordenes
@@ -26,11 +27,12 @@
                                      fecha,
                                      hora,
                                      estatus,
-                                     usuario_id) VALUES(null, ?,?,?,?,?)";
+                                     metodo_pago,
+                                     usuario_id) VALUES(null, ?,?,?,?,?,?)";
 
 
     $re = $con->prepare($insertar);
-    $re->execute([$id_cliente, $fecha, $hora, $estatus, $usuario_id]);
+    $re->execute([$id_cliente, $fecha, $hora, $estatus, $metodo_pago, $usuario_id]);
 
     //Se finaliza la insercion de la orden
 
@@ -42,10 +44,13 @@
 
         $consultar = "SELECT * FROM carrito_compra WHERE usuario_id = ?";
         $resp = $con->prepare($consultar);
-        $resp->execute([$usuario_id]);
+        $resp->execute([$usuario_id]); 
 
         $utilidad = 0;
         $suma_utilidad = 0;
+        $suma_impuesto =0;
+        $total_neto =0;
+        $subtotal =0;
         while ($row = $resp->fetch()) {
 
             //En cada iteracion insertamos la partida en el detalle de orden
@@ -55,15 +60,19 @@
             //Obtenemos la utilidad de cada partida
             
                 
-                $utilidad = "SELECT costo FROM inventario WHERE id = ?";
-                $re = $con->prepare($utilidad);
+                $costo_select = "SELECT costo FROM inventario WHERE id = ?";
+                $re = $con->prepare($costo_select);
                 $re->execute([ $row['producto_id']]);
                 $costo_producto = $re->fetchColumn();
-    
+                $cantidad = $row["cantidad"];
+                $costo_x_partida = floatval($costo_producto) * $cantidad;
                 //Operacion con las ganancias
-                $utilidad_x_partida = $row['precio_unitario'] - $costo_producto; 
-                $utilidad_neta = $utilidad_x_partida * $row["cantidad"];
-                $suma_utilidad += $suma_utilidad + $utilidad_neta;
+               // print_r("Costo por partida:  $costo_producto * $cantidad = $costo_x_partida");
+                $utilidad_x_partida = $row['importe_base'] - $costo_x_partida; 
+                $suma_utilidad += $utilidad_x_partida;
+                $suma_impuesto +=  $row["impuesto"];
+                $subtotal += $row["importe_base"];
+                $total_neto +=  $row["importe"];
 
                 //Traer stock
                     $consult = "SELECT stock FROM inventario WHERE id = ?";
@@ -87,24 +96,23 @@
             $insertar = "INSERT INTO detalle_orden(id, 
                                                    descripcion, 
                                                    cantidad,
-                                                   precio_unitario,
                                                    importe,
                                                    utilidad,
                                                    producto_id,
                                                    user_id,
                                                    orden_id)
-                                                   VALUES (null, ?,?,?,?,?,?,?,?)";
+                                                   VALUES (null, ?,?,?,?,?,?,?)";
 
 
             $re = $con->prepare($insertar);
-            $re->execute([$row["descripcion"], $row["cantidad"], $row["precio_unitario"], 
-            $row["importe"], $utilidad_neta, $row["producto_id"], $row["user_id"], $id_orden]);
+            $re->execute([$row["descripcion"], $row["cantidad"],
+            $row["importe"], $utilidad_x_partida, $row["producto_id"], $row["usuario_id"], $id_orden]);
 
         }
-
-        $updt = "UPDATE ordenes SET utilidad = ? WHERE id =?";
+    
+        $updt = "UPDATE ordenes SET subtotal =?, impuesto =?, utilidad = ?, total = ? WHERE id =?";
         $res = $con->prepare($updt);
-        $res->execute([$suma_utilidad, $id_orden]);
+        $res->execute([$subtotal, $suma_impuesto, $suma_utilidad, $total_neto, $id_orden]);
 
     }else {
         $response = array("status"=> false, "mensj"=>"Agrega articulos a la tabla");

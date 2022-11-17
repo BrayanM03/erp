@@ -5,7 +5,7 @@
                                     <a class="nav-link active" id="datos-cliente" data-toggle="tab" href="#datos" role="tab" aria-controls="datos" aria-selected="true">
                                         <span style="font-size: 19px; color: Tomato;"><i class="fas fa-user"></i></span>
                                     </a>
-                                </li>
+                                </li> 
                                 <li class="nav-item">
                                     <a class="nav-link" id="direcciones" data-toggle="tab" href="#direcion-tab" role="tab" aria-controls="direccion-tab" aria-selected="true">
                                         <span style="font-size: 19px; color: Gray;"><i class="fas fa-map-marker-alt"></i></a></span>

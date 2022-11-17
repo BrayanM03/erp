@@ -71,7 +71,7 @@ function formatSelection (repo) {
     
     $("#select2-clientes-container").attr("id-cliente", repo.id);
 
-    if(repo.id !== false){
+    if(repo.id !== ''){
         
         $("#nombre_cliente").text(repo.nombre)
         $("#nombre_cliente").attr("id_cliente",repo.id)

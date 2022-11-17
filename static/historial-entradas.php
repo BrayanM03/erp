@@ -20,7 +20,7 @@ if (empty($_SESSION["id"])) {
 
     <link rel="canonical" href="https://demo-basic.adminkit.io/pages-blank.html" />
 
-    <title>Inventario | ERP manager</title>
+    <title>Reportes de entrada de mercancia | ERP manager</title>
 
     <link href="css/app.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">

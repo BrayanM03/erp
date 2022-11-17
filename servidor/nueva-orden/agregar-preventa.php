@@ -1,5 +1,5 @@
 <?php
-
+ 
     session_start();
     include '../database/conexion.php';    
     date_default_timezone_set("America/Matamoros");
@@ -7,9 +7,7 @@
 
     $id_producto = $_POST["id_product"];
     $cantidad = $_POST["cantidad"];
-    $cliente = $_POST["cliente"];
-    $tipo_descuento = $_POST["tipo_descuento"];
-    $descuento_int = $_POST["descuento"];
+    $dato_precio = $_POST["dato_precios"];
 
 
     $validar = "SELECT COUNT(*) FROM inventario WHERE id = ?";
@@ -27,6 +25,23 @@
              $data = $row;
         }
 
+          //Manejando datos sobre los precios
+            if($dato_precio == "base"){
+                $precio_base = $data['precio_base'];
+                $impuesto = $data['impuesto'];
+                $precio_total = $data['precio_total'];
+            }else{
+                $selct = "SELECT * FROM precios WHERE id = ?";
+                $resx = $con->prepare($selct);
+                $resx->execute([$dato_precio]);
+
+                while ($row = $resx->fetch()) {
+                    $precio_base = $row['precio_base'];
+                    $impuesto = $row['impuesto'];
+                    $precio_total = $row['precio_neto'];
+                }
+            }
+
       }
 
 
@@ -37,54 +52,26 @@
     $re->closeCursor();
 
     if($count == 0){
-
-    switch ($tipo_descuento) {
-            case 'unidad':
-            $descuento = $descuento_int;
-            $porcentaje_descuento = (100/(floatval($data["precio_total"])/$descuento_int));
-            $impuesto = $cantidad * ((floatval($data["precio_base"])-$impuesto)* floatval("0.".$data["tasa"]));
-
-            break;
-
-            case 'porcentaje':
-                $descuento = ((floatval($descuento_int)/100) * floatval($data["precio_total"]));
-                $porcentaje_descuento = $descuento_int;
-                $impuesto = $cantidad * ((floatval($data["precio_base"]- $impuesto))* floatval("0.".$data["tasa"]));
-            break;
-
-            case null:
-                $porcentaje_descuento = 0;
-                $descuento =0;
-                $impuesto = ($cantidad * floatval($data["impuesto"]));
-
-            break;    
-        
-        default:
-            $porcentaje_descuento = 0;
-            $descuento =0;
-            $impuesto = ($cantidad * floatval($data["impuesto"]));
-            break;
-    }
-
-
-    $importe = ($cantidad * floatval($data["precio_total"])) - $descuento;
   
+    $importe_base = floatval($precio_base) * $cantidad;
+    $impuesto = floatval($impuesto) * $cantidad;
+    $importe =  floatval($precio_total) * $cantidad;
+
+  //print_r($id_producto. "-- ".$cantidad. "-- ".$precio_base. "-- ".$importe_base. "-- ".$impuesto. "-- ".$importe. "-- ".$_SESSION["id"]. "--".$data["descripcion"]);
 
     $insert = "INSERT INTO carrito_compra(id,
                                           producto_id,
                                           cantidad,
-                                          precio,
-                                          porcentaje_descuento,
-                                          descuento,
+                                          precio_unitario,
+                                          importe_base,
                                           impuesto,
                                           importe,
-                                          cliente_id,
                                           usuario_id,
-                                          descripcion) VALUES(null, ?,?,?,?,?,?,?,?,?,?)";
+                                          descripcion) VALUES(null, ?,?,?,?,?,?,?,?)";
     $resp = $con->prepare($insert);
-    $resp->execute([$id_producto, $cantidad, $data["precio_total"],$porcentaje_descuento, $descuento, $impuesto, $importe, $cliente, $_SESSION["id"],$data["descripcion"]]);
+    $resp->execute([$id_producto, $cantidad, $precio_base, $importe_base, $impuesto, $importe, $_SESSION["id"],$data["descripcion"]]);
     $resp->closeCursor();
-    $response = array("status"=> true, "mensj"=>"Los datos se insertaron correctamente", "data"=>$data);
+    $response = array("status"=> true, "mensj"=>"Los datos se insertaron correctamente", "data"=>$_POST);
     
 
     }else if($count > 0){
@@ -94,59 +81,27 @@
         $re->execute([$id_producto, $_SESSION["id"]]);
 
         while($row = $re->fetch(PDO::FETCH_OBJ)){
-            $cantidad_actual = $row->cantidad;
-            $importe_actual = $row->importe;
-            $porcentaje_descuento_actual = $row->porcentaje_descuento;
-            $descuento_actual = $row->descuento;
-            $impuesto_actual = $row->impuesto;
             $id_detalle = $row->id;
+            $cantidad_actual = $row->cantidad;
+            $importe_base_actual = $row->importe_base;
+            $impuesto_actual = $row->impuesto;
+            $importe_actual = $row->importe;
         }
 
-        switch ($tipo_descuento) {
-            case 'unidad':
-            $descuento = $descuento_int;
-            $porcentaje_descuento = (100/(floatval($data["precio_total"])/$descuento_int));
-            $impuesto = $cantidad * ((floatval($data["precio_base"]) - $descuento )* floatval("0.".$data["tasa"]));
-
-            break;
-
-            case 'porcentaje':
-                $descuento = ((floatval($descuento_int)/100) * floatval($data["precio_total"]));
-                $porcentaje_descuento = $descuento_int;
-                $impuesto = $cantidad * ((floatval($data["precio_base"]-$impuesto))* floatval("0.".$data["tasa"]));
-            break;
-
-            case null:
-                $porcentaje_descuento = 0;
-                $descuento =0;
-                $impuesto = ($cantidad * floatval($data["impuesto"]));
-
-            break;    
-        
-        default:
-            $porcentaje_descuento = 0;
-            $descuento =0;
-            $impuesto = ($cantidad * floatval($data["impuesto"]));
-            break;
-    }
         
 
         $nueva_cantidad = $cantidad + $cantidad_actual;
-        $nuevo_impuesto = $impuesto + $nuevo_impuesto;
-        $nuevo_porcentaje_descuento = $porcentaje_descuento_actual + $porcentaje_descuento;
-        $nuevo_descuento = $descuento_actual + $descuento;
-        $importe = ($cantidad * floatval($data["precio_total"])) - $descuento;
+        $nuevo_importe_base = floatval($precio_base) * $nueva_cantidad;
+        $nuevo_importe =  floatval($precio_total) * $nueva_cantidad;
+        $nuevo_impuesto = floatval($impuesto) * $nueva_cantidad;
+    
 
-        $nuevo_importe = $importe_actual + $importe;
-
-        $update = "UPDATE carrito_compra SET cantidad = ?, 
-                                             porcentaje_descuento =?,
-                                             descuento = ?,
+        $update = "UPDATE carrito_compra SET cantidad = ?,
+                                             importe_base = ?, 
                                              impuesto =?,
                                              importe = ? WHERE producto_id = ? AND usuario_id = ?";
         $re = $con->prepare($update);
-        $re->execute([$nueva_cantidad, $nuevo_porcentaje_descuento, 
-                     $nuevo_descuento, $nuevo_impuesto, $nuevo_importe, $id_producto, $_SESSION["id"]]);
+        $re->execute([$nueva_cantidad, $nuevo_importe_base, $nuevo_impuesto, $nuevo_importe, $id_producto, $_SESSION["id"]]);
 
        
         $response = array("status"=> true, "mensj"=>"Los datos se actualizarón correctamente");

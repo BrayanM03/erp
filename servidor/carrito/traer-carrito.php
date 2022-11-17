@@ -16,19 +16,24 @@
         $select = "SELECT * FROM carrito_compra WHERE usuario_id = ?";
         $resp = $con->prepare($select);
         $resp->execute([$usuario_id]);
+        $subtotal = 0;
+        $descuento = 0;
         $importe =0;
         $iva =0;
         while ($row = $resp->fetch(PDO::FETCH_OBJ)) {
             //print_r($row['importe']);
-            $importe = $importe + floatval($row->importe);
+            $subtotal = $subtotal + floatval($row->importe_base);
             $iva = $iva+ floatval($row->impuesto);
+            $importe = $importe + floatval($row->importe);
 
             //print_r($row);
             $response["data"][] = $row;
         }
 
-        $response["importe"] = $importe;
+        $response["subtotal"] = $subtotal;
+        $response["descuento"] = $descuento;
         $response["iva"] = $iva;
+        $response["importe"] = $importe;
 
         $response["status"] = true;
         $response["message"] = "El carrito tiene productos";

@@ -147,6 +147,7 @@ if (empty($_SESSION["id"])) {
     <script src="js/inventario/opciones.js"></script>
     <script src="js/inventario/registrar-producto.js"></script>
     <script src="js/inventario/agregar-mercancia.js"></script>
+    <script src="js/inventario/formulario.js"></script>
 
 
     <!-- Mis scripts -->

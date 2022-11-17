@@ -42,52 +42,91 @@
 
              $resultado->execute();
              $id_cliente = $con->lastInsertId();
-
+             $resultado->closeCursor();
   
             
               
-
-                foreach ($direcciones as $index => $element){
                 
-                $insert_detail_customer = "INSERT INTO detalle_direccion(id, calle, colonia, numero_int, numero_ext, cp, ciudad, municipio, estado, pais, id_usuario) VALUES(null,?,?,?,?,?,?,?,?,?,?)";
-                $result = $con->prepare($insert_detail_customer);
-                $result->bindParam(1,$element["calle"]);
-                $result->bindParam(2,$element["colonia"]);
-                $result->bindParam(3,$element["interior"]);
-                $result->bindParam(4,$element["exterior"]);
-                $result->bindParam(5,$element["cp"]);
-                $result->bindParam(6,$element["ciudad"]);
-                $result->bindParam(7,$element["municipio"]);
-                $result->bindParam(8,$element["estado"]);
-                $result->bindParam(9,$element["pais"]);
-                $result->bindParam(10,$id_cliente);
-   
-                $result->execute();
+            foreach($direcciones as $index => $element){
+              $calle_i = $element["calle"] ? $element["calle"] : null;
+              $colonia_i = $element["colonia"] ? $element["colonia"] : null;
+              $interior_i = $element["interior"] ? $element["interior"] : null;
+              $exterior_i = $element["exterior"] ? $element["exterior"] : null;
+              $cp_i = $element["cp"] ? $element["cp"] : null;
+              $ciudad_i = $element["ciudad"] ? $element["ciudad"] : null;
+              $municipio_i = $element["municipio"] ? $element["municipio"] : null;
+              $estado_i = $element["estado"] ? $element["estado"] : null;
+              $pais_i = $element["pais"] ? $element["pais"] : null;
+       
+                $tash = "null";
+                $insert_detail_customer_direction = "INSERT INTO detalle_direccion (id,
+                                                                          calle, 
+                                                                          colonia, 
+                                                                          numero_int, 
+                                                                          numero_ext, 
+                                                                          cp, 
+                                                                          ciudad,
+                                                                          municipio,
+                                                                          estado, 
+                                                                          pais, 
+                                                                          id_usuario, 
+                                                                          trash_flag) VALUES (null,?,?,?,?,?,?,?,?,?,?,?)";
+                $result = $con->prepare($insert_detail_customer_direction);
+              
+                
+
+                $result->execute([
+                  $calle_i,
+                  $colonia_i,
+                  $interior_i,
+                  $exterior_i,
+                  $cp_i,
+                  $ciudad_i,
+                  $municipio_i,
+                  $estado_i,
+                  $pais_i,
+                  $id_cliente,
+                  $tash
+                ]);
+                $result->closeCursor();
 
               }
 
-              foreach ($correos as $index => $element){
+             
+          
+              foreach($correos as $index => $element2){
 
-                $insert_detail_customer = "INSERT INTO detalle_correo(id, etiqueta, correo, id_usuario) VALUES(null,?,?,?)";
+                $etiqueta_i = $element2["etiqueta"] ? $element2["etiqueta"]: null;
+                $correo_i = $element2["correo"] ? $element2["correo"]: null;
+
+                $insert_detail_customer_mail = "INSERT INTO detalle_correo(id, etiqueta, correo, id_usuario) VALUES(null,?,?,?)";
         
-                $result = $con->prepare($insert_detail_customer);
-                $result->bindParam(1,$element["etiqueta"]);
-                $result->bindParam(2,$element["correo"]);
-                $result->bindParam(3,$id_cliente);
-                $result->execute();
+                $result2 = $con->prepare($insert_detail_customer_mail);
+                $result2->bindParam(1,$etiqueta_i);
+                $result2->bindParam(2,$correo_i);
+                $result2->bindParam(3,$id_cliente);
+                $result2->execute();
+                $result2->closeCursor();
+
               }
 
-              foreach ($cuentas as $index => $element){
-
-                $insert_detail_customer = "INSERT INTO detalle_cuenta_bancaria(id, nombre, cuenta, banco, rfc_banco, id_usuario) VALUES(null,?,?,?,?,?)";
+             
+              foreach ($cuentas as $index => $element3){
+                $nombre_cuenta_i = $element3["nombre_cuenta"] ? $element3["nombre_cuenta"]: null;
+                $no_cuenta_i = $element3["no_cuenta"] ? $element3["no_cuenta"]: null;
+                $banco_i = $element3["banco"] ? $element3["banco"]: null;
+                $rfc_banco_i = $element3["rfc_banco"] ? $element3["rfc_banco"]: null;
+                
+                $insert_detail_customer_count = "INSERT INTO detalle_cuenta_bancaria(id, nombre, cuenta, banco, rfc_banco, id_usuario) VALUES(null,?,?,?,?,?)";
                
-                $result = $con->prepare($insert_detail_customer);
-                $result->bindParam(1,$element["nombre_cuenta"]);
-                $result->bindParam(2,$element["no_cuenta"]);
-                $result->bindParam(3,$element["banco"]);
-                $result->bindParam(4,$element["rfc_banco"]);
-                $result->bindParam(5,$id_cliente);
-                $result->execute();
+                $result3 = $con->prepare($insert_detail_customer_count);
+                $result3->bindParam(1,$nombre_cuenta_i);
+                $result3->bindParam(2,$no_cuenta_i);
+                $result3->bindParam(3,$banco_i);
+                $result3->bindParam(4,$rfc_banco_i);
+                $result3->bindParam(5,$id_cliente);
+                $result3->execute();
+                $result3->closeCursor();
               }
 
              print_r(1);

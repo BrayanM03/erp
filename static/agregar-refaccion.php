@@ -20,7 +20,7 @@ if (empty($_SESSION["id"])) {
 
     <link rel="canonical" href="https://demo-basic.adminkit.io/pages-blank.html" />
 
-    <title>Inventario clima | AireEx manager</title>
+    <title>Inventario clima | ERP manager</title>
 
     <link href="css/app.css" rel="stylesheet">
     <link href="css/estilos-agregar-producto.css" rel="stylesheet">

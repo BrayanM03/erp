@@ -1,5 +1,6 @@
 <?php
 if ($_POST) {
+    session_start();
     include "../database/conexion.php";
     date_default_timezone_set('America/Matamoros');
 
@@ -14,6 +15,7 @@ if ($_POST) {
     $tasa = $_POST["tasa"];
     $impuesto = $_POST["impuesto"];
     $precio_total = $_POST["precio_total"];
+    $usuario_id = $_SESSION["id"];
 
     $modelo = $_POST["modelo"] ?? null;
     $marca = $_POST["marca"] ?? null;
@@ -49,9 +51,46 @@ if ($_POST) {
 
     $resp->closeCursor();
 
-    $last_id = $con->lastInsertId();
+    $last_id = $con->lastInsertId(); 
+
+    $folder_product = "P" . $last_id;
+    $folder = "../../static/img/productos/$folder_product";
+
+    if (!file_exists($folder)) {
+        mkdir($folder, 0777, true);
+    }
+
+
+    //Procesando la tabla de precios
+
+    $compr = "SELECT COUNT(*) FROM precios_tmp WHERE usuario_id = ?";
+    $r = $con->prepare($compr);
+    $r->execute([$usuario_id]);
+    $total_prec = $r->fetchColumn(); 
+    $r->closeCursor();
+
+    if($total_prec > 0){
+
+        $select = "SELECT * FROM precios_tmp WHERE usuario_id = ?";
+        $re = $con->prepare($select);
+        $re->execute([$usuario_id]);
+
+        while ($row = $re->fetch(PDO::FETCH_OBJ)) {
+
+            $data[] = $row;
+            $insert = "INSERT INTO precios (id, costo, precio_base, tasa, impuesto, precio_neto, etiqueta, producto_id, usuario_id)
+            VALUES (null, ?,?,?,?,?,?,?,?)";
+            $resp = $con->prepare($insert);
+            $resp->execute([$row->costo, $row->precio_base, $row->tasa, $row->impuesto,
+            $row->precio_neto, $row->etiqueta, $last_id, $usuario_id]);
+            $resp->closeCursor(); 
+        
+        }
+        $re->closeCursor();
+  
+    }
    
-    $response = array("status"=>true, "message"=> "Producto agregado correctamente", "id"=>$last_id);
+    $response = array("status"=>true, "message"=> "Producto agregado correctamente", "id"=>$last_id, "data"=>$data);
     echo json_encode($response, JSON_UNESCAPED_UNICODE);
 
 }

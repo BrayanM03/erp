@@ -4,15 +4,15 @@ var count_click3 = 0;
 var count_click4 = 0;
 
 function agregarDireccion(type) {
-  var calle = $("#calle").val();
-  var num_ext = $("#exterior").val();
-  var num_int = $("#interior").val();
-  var cp = $("#zip").val();
-  var colonia = $("#colonia").val();
-  var ciudad = $("#ciudad").val();
-  var municipio = $("#municipio").val();
-  var estado = $("#estado").val();
-  var pais = $("#pais").val();
+  var calle = $("#calle").val() ? $("#calle").val() : "";
+  var num_ext = $("#exterior").val() ? $("#exterior").val() : "";
+  var num_int = $("#interior").val() ? $("#interior").val() : "";
+  var cp = $("#zip").val() ? $("#zip").val() : "";
+  var colonia = $("#colonia").val() ? $("#colonia").val() : "";
+  var ciudad = $("#ciudad").val() ? $("#ciudad").val() : "";
+  var municipio = $("#municipio").val() ? $("#municipio").val() : "";
+  var estado = $("#estado").val() ? $("#estado").val() : "";
+  var pais = $("#pais").val() ? $("#pais").val() : "";
 
   
 

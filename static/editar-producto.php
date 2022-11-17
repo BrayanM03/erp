@@ -20,7 +20,7 @@ if (empty($_SESSION["id"])) {
 
     <link rel="canonical" href="https://demo-basic.adminkit.io/pages-blank.html" />
 
-    <title>Inventario clima | AireEx manager</title>
+    <title>Editar producto | Erp manager</title>
 
     <link href="css/app.css" rel="stylesheet">
     <link href="css/estilos-agregar-producto.css" rel="stylesheet">
@@ -28,6 +28,8 @@ if (empty($_SESSION["id"])) {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.3.0/css/responsive.dataTables.min.css" />
+    <link rel="stylesheet" href="./css/form-field.css">
+    <link rel="stylesheet" href="./css/imagenes-inventario.css">
 
 </head>
 
@@ -92,6 +94,7 @@ if (empty($_SESSION["id"])) {
 
     <!-- Librerias -->
     <script src="https://kit.fontawesome.com/31a28ea63e.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.3.0/js/dataTables.responsive.min.js"></script>
@@ -99,8 +102,9 @@ if (empty($_SESSION["id"])) {
     <!-- Mis scripts -->
 
     <script src="js/inventario/opciones.js"></script>
-    <script src="js/inventario/nueva-series.js"></script>
     <script src="js/inventario/editar-producto.js"></script>
+    <script src="js/inventario/formulario-editar-prod.js"></script>
+    <script src="js/inventario/edicion-imagenes.js"></script>
   
     <script>
         

@@ -428,7 +428,6 @@ function agregarProductoARemision(){
 };
 
 function eliminarProducto(id_prod){
-  let id_usuario = $("#user-data").attr("id_user");
 
   Swal.fire({
     icon: "question",
@@ -441,7 +440,7 @@ function eliminarProducto(id_prod){
 
       let dato = {
         type: "eliminacion",
-        id_producto: id_prod
+        id_detalle: id_prod
     };
 
       $.ajax({
@@ -451,9 +450,8 @@ function eliminarProducto(id_prod){
         dataType: "JSON",
         success: function (response) {
         
-        restearTabla(id_usuario)
         validarTabla()
-
+        tabla.ajax.reload(null, false);
         Toast.fire({
           icon: 'success',
           title: response.mensj

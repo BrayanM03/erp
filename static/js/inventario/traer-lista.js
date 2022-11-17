@@ -61,18 +61,18 @@ $(document).ready(function () {
 });
 });
 
-function editarProducto(id){
+function editarProducto(id, categoria, subcategoria){
   let sucursal_id = getParameterByName("store_id")
   let store_name = getParameterByName("name")
-    window.location.href = "editar-producto.php?id_product="+ id +"&store_id=" + sucursal_id + "&name="+ store_name;
+    window.location.href = "editar-producto.php?id_product="+ id +"&store_id=" + sucursal_id + "&name="+ store_name + 
+    "&categoria="+ categoria + "&subcategoria=" + subcategoria;
 
 }
 
 function eliminarProducto(id_product){
   Swal.fire({
     icon: "question",
-    html: "<b>¿Seguro de eliminar este producto?</b>"+
-    "<p>Se eliminaran las series de este modelo</p>",
+    html: "<b>¿Seguro de eliminar este producto?</b>",
     confirmButtonText: "Si",
     showCancelButton: true,
     cancelButtonText: "Mejor no"

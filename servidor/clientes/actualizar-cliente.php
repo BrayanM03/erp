@@ -29,7 +29,7 @@
    $trash_flag = "No borrar";
 
    function setearTrashFlag($id_cliente, $con, $tabla){
-       $trash_flag = "borrar";
+    $trash_flag = "borrar";
     $actualizar_direccion = "UPDATE $tabla SET trash_flag = ? WHERE id_usuario = ?";
 
     $res = $con->prepare($actualizar_direccion);
@@ -46,17 +46,38 @@
 
    function ingresarDireccion($id_cliente, $con, $element, $trash_flag) {
 
-    $insert_detail_customer = "INSERT INTO detalle_direccion(id, calle, colonia, numero_int, numero_ext, cp, ciudad, municipio, estado, pais, id_usuario, trash_flag) VALUES(null,?,?,?,?,?,?,?,?,?,?,?)";
+    $calle_i = $element["calle"] ? $element["calle"] : null;
+    $colonia_i = $element["colonia"] ? $element["colonia"] : null;
+    $interior_i = $element["interior"] ? $element["interior"] : null;
+    $exterior_i = $element["exterior"] ? $element["exterior"] : null;
+    $cp_i = $element["cp"] ? $element["cp"] : null;
+    $ciudad_i = $element["ciudad"] ? $element["ciudad"] : null;
+    $municipio_i = $element["municipio"] ? $element["municipio"] : null;
+    $estado_i = $element["estado"] ? $element["estado"] : null;
+    $pais_i = $element["pais"] ? $element["pais"] : null;
+
+    $insert_detail_customer = "INSERT INTO detalle_direccion(id, 
+                                                             calle, 
+                                                             colonia, 
+                                                             numero_int, 
+                                                             numero_ext, 
+                                                             cp, 
+                                                             ciudad, 
+                                                             municipio, 
+                                                             estado, 
+                                                             pais, 
+                                                             id_usuario, 
+                                                             trash_flag) VALUES(null,?,?,?,?,?,?,?,?,?,?,?)";
             $result = $con->prepare($insert_detail_customer);
-            $result->bindParam(1,$element["calle"]);
-            $result->bindParam(2,$element["colonia"]);
-            $result->bindParam(3,$element["interior"]);
-            $result->bindParam(4,$element["exterior"]);
-            $result->bindParam(5,$element["cp"]);
-            $result->bindParam(6,$element["ciudad"]);
-            $result->bindParam(7,$element["municipio"]);
-            $result->bindParam(8,$element["estado"]);
-            $result->bindParam(9,$element["pais"]);
+            $result->bindParam(1, $calle_i);
+            $result->bindParam(2, $colonia_i);
+            $result->bindParam(3, $interior_i);
+            $result->bindParam(4, $exterior_i);
+            $result->bindParam(5, $cp_i);
+            $result->bindParam(6, $ciudad_i);
+            $result->bindParam(7, $municipio_i);
+            $result->bindParam(8, $estado_i);
+            $result->bindParam(9, $pais_i);
             $result->bindParam(10,$id_cliente);
             $result->bindParam(11,$trash_flag);
 
@@ -132,7 +153,6 @@
         foreach ($direcciones as $index => $element){
 
             if(empty($element["id_bd"])){
-                echo "lol";
                 ingresarDireccion($id_cliente, $con, $element, $trash_flag);
 
             }else{
@@ -145,6 +165,16 @@
                 $res->closeCursor();
     
                 if($no_direcciones_encontradas > 0){
+
+                    $calle_i = $element["calle"] ? $element["calle"] : null;
+                    $colonia_i = $element["colonia"] ? $element["colonia"] : null;
+                    $interior_i = $element["interior"] ? $element["interior"] : null;
+                    $exterior_i = $element["exterior"] ? $element["exterior"] : null;
+                    $cp_i = $element["cp"] ? $element["cp"] : null;
+                    $ciudad_i = $element["ciudad"] ? $element["ciudad"] : null;
+                    $municipio_i = $element["municipio"] ? $element["municipio"] : null;
+                    $estado_i = $element["estado"] ? $element["estado"] : null;
+                    $pais_i = $element["pais"] ? $element["pais"] : null;
                    
                     $actualizar_direccion = "UPDATE detalle_direccion SET calle = ?,
                                                                           colonia = ?,
@@ -159,15 +189,15 @@
                                                                           WHERE id = ?";
     
                     $res = $con->prepare($actualizar_direccion);
-                    $res->bindParam(1,$element["calle"]);
-                    $res->bindParam(2,$element["colonia"]);
-                    $res->bindParam(3,$element["interior"]);
-                    $res->bindParam(4,$element["exterior"]);
-                    $res->bindParam(5,$element["cp"]);
-                    $res->bindParam(6,$element["ciudad"]);
-                    $res->bindParam(7,$element["municipio"]);
-                    $res->bindParam(8,$element["estado"]);
-                    $res->bindParam(9,$element["pais"]);
+                    $res->bindParam(1,$calle_i);
+                    $res->bindParam(2,$colonia_i);
+                    $res->bindParam(3,$interior_i);
+                    $res->bindParam(4,$exterior_i);
+                    $res->bindParam(5,$cp_i);
+                    $res->bindParam(6,$ciudad_i);
+                    $res->bindParam(7,$municipio_i);
+                    $res->bindParam(8,$estado_i);
+                    $res->bindParam(9,$pais_i);
                     $res->bindParam(10,$trash_flag);
                     $res->bindParam(11,$element["id_bd"]);
                     $res->execute();

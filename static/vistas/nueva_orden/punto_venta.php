@@ -61,6 +61,18 @@
                                     <ul>
                                         <li>
                                            <div class="row">
+                                           <div class="col-12 col-md-5">Subtotal</div> 
+                                           <div class="col-12 col-md-7"><span id="subtotal">$0.00</span></div>
+                                           </div> 
+                                        </li>
+                                        <li>
+                                           <div class="row">
+                                           <div class="col-12 col-md-5">Descuento</div> 
+                                           <div class="col-12 col-md-7"><span id="descuento">$0.00</span></div>
+                                           </div> 
+                                        </li>
+                                        <li>
+                                           <div class="row">
                                            <div class="col-12 col-md-5">IVA</div> 
                                            <div class="col-12 col-md-7"><span id="iva">$0.00</span></div>
                                            </div> 

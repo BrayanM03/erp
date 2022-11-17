@@ -18,10 +18,10 @@ if ($_POST) {
         $rep->closeCursor();
 
         $stock_total = $stock_actual + $nuevo_stock;
-
-        $updt = "UPDATE inventario SET stock = ? WHERE id = ?";
+        $est = "Activo";
+        $updt = "UPDATE inventario SET stock = ?, estatus = ? WHERE id = ?";
         $rep = $con->prepare($updt);
-        $rep->execute([$stock_total, $id_producto]);
+        $rep->execute([$stock_total, $est, $id_producto]);
         $rep->closeCursor();
 
     }
@@ -103,11 +103,11 @@ if ($_POST) {
     }
 
     if($type == "eliminacion"){
-        $producto_id = $_POST["id_producto"];
+        $detalle_id = $_POST["id_detalle"];
 
-            $eliminar = "DELETE FROM detalle_preventa_tmp WHERE id =?";
+            $eliminar = "DELETE FROM detalle_entrada_tmp WHERE id =?";
             $resp = $con->prepare($eliminar);
-            $resp->execute([$producto_id]);
+            $resp->execute([$detalle_id]);
             $resp->closeCursor();
 
             $response = array("mensj"=> "Producto eliminado correctamente",

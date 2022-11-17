@@ -14,7 +14,7 @@ date_default_timezone_set('America/Matamoros');
         $total = $resp->fetchColumn();
         $resp->closeCursor();
 
-        if($total > 0){
+        if($total > 0){ 
 
           
                 $del = "SELECT COUNT(*) FROM $relacion WHERE $relacion_id = ?";

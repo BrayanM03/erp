@@ -353,5 +353,7 @@ resultado.innerText = /* "RFC: " + rfc
 
 function rfcGenerico(){
     let rfc = document.getElementById("rfc");
+    $("#resultado").addClass("ok")
     rfc.value = "XAXX010101000"
+    resultado.innerText = "RFC valido"
 }
