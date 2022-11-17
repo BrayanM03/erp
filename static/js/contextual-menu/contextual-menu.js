@@ -27,10 +27,10 @@ table.addEventListener("contextmenu", e =>{
     winHeight = window.innerHeight,
     cmHeight = contextMenu.offsetHeight;
 
-    /* console.log("Ancho ventana: "+winWidth);
+    console.log("Ancho ventana: "+winWidth);
     console.log("Ancho context menu: "+cmWidth);
     console.log("Posicion x: "+x);
-    console.log("Posicion y: "+y); */
+    console.log("Posicion y: "+y);
 
 
     x = x > winWidth - cmWidth ? winWidth - cmWidth : x;   

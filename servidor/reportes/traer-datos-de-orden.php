@@ -29,6 +29,7 @@ if ($_POST) {
             $sucursal_id = $row['sucursal_id'];
             $cliente_id = $row['id_cliente'];
             $comentario = $row['comentario'];
+            if($tipo != "salida"){
             $correo = $row['correo'] ? $row['correo'] : '';
             $direccion = $row['direccion'] ? $row['direccion'] : '';
             $telefono = $row['telefono'] ? $row['telefono'] : '';
@@ -39,8 +40,10 @@ if ($_POST) {
             $tasa = $row['tasa'] ? $row['tasa'] : '';
             $impuesto = $row['impuesto'] ? $row['impuesto'] : '';
             $neto = $row['neto'] ? $row['neto'] : '';
+            
+            }
 
-            if($tipo == "salida"){
+            if($tipo == "salida" || $tipo == "cotizacion"){
                 $datos_cliente = obtenerDatosCliente($con, $cliente_id);
                 $response["datos_cliente"] = $datos_cliente[1];
                 $response["comentario"] = $comentario;
@@ -60,6 +63,8 @@ if ($_POST) {
         $response['status'] =    true;
         $response['post'] =    $_POST;
         $response['mensj'] =     "Se encontraron datos";
+        
+        if($tipo != "salida"){
         $response["direccion"] = $direccion;
         $response["telefono"] = $telefono;
         $response["correo"] = $correo;
@@ -70,6 +75,7 @@ if ($_POST) {
         $response["impuesto"] = $impuesto;
         $response["descuento"] = $descuento;
         $response["neto"] = $neto;
+        }
 
         //BUSCANDO LOS DETALLES DE LA ORDENES
 
@@ -90,10 +96,16 @@ if ($_POST) {
                 $item_descripcion = $fila_orden["concepto"];
                 $item_cant = $fila_orden["cantidad"];
                 $producto_id = $fila_orden["producto_id"];
+                if($tipo != "salida"){
                 $precio_unitario = $fila_orden["precio_unitario"] ? $fila_orden["precio_unitario"] : null;
                 $descuento = $fila_orden["descuento"] ? $fila_orden["descuento"] : null;
                 $importe = $fila_orden["importe"] ? $fila_orden["importe"] : null;
-                $usuario_id = $fila_orden["usuario_id"] ? $fila_orden["usuario_id"] : null;
+                }else{
+                    $precio_unitario = 0;
+                    $descuento = 0;
+                    $importe = 0;
+                }
+               // $usuario_id = $fila_orden["usuario_id"] ? $fila_orden["usuario_id"] : null;
 
                 $detalle_orden[] = array("codigo" => $codigo, 
                                         "descripcion" => $item_descripcion, 

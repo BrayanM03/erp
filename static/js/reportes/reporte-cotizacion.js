@@ -10,7 +10,7 @@
     $.ajax({
         type: "POST",
         url: "../servidor/reportes/traer-datos-de-orden.php",
-        data: {id_orden: id_remision, tabla: "cotizaciones", indicador: "id", tabla_detalle: "detalle_cotizacion", tipo: "salida", indicador_detalle: "cotizacion_id"},
+        data: {id_orden: id_remision, tabla: "cotizaciones", indicador: "id", tabla_detalle: "detalle_cotizacion", tipo: "cotizacion", indicador_detalle: "cotizacion_id"},
         dataType: "JSON",
         success: function (response) {
             console.log(response);
