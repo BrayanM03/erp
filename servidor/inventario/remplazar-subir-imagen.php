@@ -9,6 +9,7 @@
     $folder = "../../static/img/Productos/P$producto_id";
     $_FILES["image"]['name'] = "P$indicador.jpg";
     $image_path = "P$producto_id/P1.jpg";
+    $path = "P$producto_id/P1";
     $countfiles = count($_FILES);
 
     $folder = "../../static/img/Productos/P$producto_id";
@@ -21,7 +22,7 @@
     if (move_uploaded_file($_FILES["image"]["tmp_name"], "$folder/".$_FILES['image']['name'])) {
         $updt = "UPDATE inventario SET imagen = ? WHERE id = ?";
         $ree = $con->prepare($updt);
-        $ree->execute([$image_path, $producto_id]);
+        $ree->execute([$path, $producto_id]);
         $mensaje = "Imagen subida/cambiada correctamente";
         $estatus = true;
     }else{

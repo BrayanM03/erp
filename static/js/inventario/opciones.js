@@ -159,12 +159,12 @@ function clickEditarProducto(e) {
                     case "computacion":
                             $("#subcategoria").prop("disabled", false).empty().css("background", "#FFF").css("color", "#99A3BA").append(`
                             <option value="almacenamiento">Almacenamiento</option>
-                            <option value="almacenamiento">Accesorios</option>
-                            <option value="almacenamiento">Energia</option>
-                            <option value="almacenamiento">Equipos</option>
-                            <option value="almacenamiento">Gaming</option>
-                            <option value="almacenamiento">Mantenimiento</option>
-                            <option value="almacenamiento">Software</option>
+                            <option value="accesorios">Accesorios</option>
+                            <option value="energia">Energia</option>
+                            <option value="equipos">Equipos</option>
+                            <option value="gaming">Gaming</option>
+                            <option value="mantenimiento">Mantenimiento</option>
+                            <option value="software">Software</option>
             
                             `)
                         break;
