@@ -16,6 +16,7 @@
 
    $arrResultado=array();
 
+
    $id_cliente = $_POST['id_cliente'];
    $nombre = $_POST["razon_social"];
    $telefono = $_POST["telefono"];
@@ -171,6 +172,7 @@
     
                 if($no_direcciones_encontradas > 0){
 
+                   
                     $calle_i = $element["calle"] ? $element["calle"] : null;
                     $colonia_i = $element["colonia"] ? $element["colonia"] : null;
                     $interior_i = $element["interior"] ? $element["interior"] : null;
@@ -180,7 +182,8 @@
                     $municipio_i = $element["municipio"] ? $element["municipio"] : null;
                     $estado_i = $element["estado"] ? $element["estado"] : null;
                     $pais_i = $element["pais"] ? $element["pais"] : null;
-                   
+                   /*  print_r($element); */
+
                     $actualizar_direccion = "UPDATE detalle_direccion SET calle = ?,
                                                                           colonia = ?,
                                                                           numero_int = ?,
@@ -192,20 +195,11 @@
                                                                           pais = ?,
                                                                           trash_flag = ?
                                                                           WHERE id = ?";
-    
+                    $nueva_flag = "No borrar";
                     $res = $con->prepare($actualizar_direccion);
-                    $res->bindParam(1,$calle_i);
-                    $res->bindParam(2,$colonia_i);
-                    $res->bindParam(3,$interior_i);
-                    $res->bindParam(4,$exterior_i);
-                    $res->bindParam(5,$cp_i);
-                    $res->bindParam(6,$ciudad_i);
-                    $res->bindParam(7,$municipio_i);
-                    $res->bindParam(8,$estado_i);
-                    $res->bindParam(9,$pais_i);
-                    $res->bindParam(10,$trash_flag);
-                    $res->bindParam(11,$element["id_bd"]);
-                    $res->execute();
+                   
+                    $res->execute([$calle_i, $colonia_i, $interior_i, $exterior_i, $cp_i, $ciudad_i, 
+                    $municipio_i, $estado_i, $pais_i, $nueva_flag, $element["id_bd"]]);
                     $res->closeCursor();
                 }else{
     
@@ -239,13 +233,16 @@
     
                 if($no_correos_encontrados > 0){
                     $actualizar_correo = "UPDATE detalle_correo SET etiqueta = ?,
-                                                                    correo = ?  
+                                                                    correo = ?,
+                                                                    trash_flag = ?
                                                                     WHERE id = ?";
     
+                    $nueva_flag = "No borrar";
                     $res = $con->prepare($actualizar_correo);
                     $res->bindParam(1,$element["etiqueta"]);
                     $res->bindParam(2,$element["correo"]);
-                    $res->bindParam(3,$element["id_bd"]);
+                    $res->bindParam(3,$nueva_flag);
+                    $res->bindParam(4,$element["id_bd"]);
                     $res->execute();
                     $res->closeCursor();
 
@@ -283,15 +280,17 @@
                     $actualizar_cuenta = "UPDATE detalle_cuenta_bancaria SET nombre = ?,
                                                                              cuenta = ?,
                                                                              banco = ?,
-                                                                             rfc_banco = ?  
+                                                                             rfc_banco = ?,
+                                                                             trash_flag = ?
                                                                              WHERE id = ?";
-    
+                    $nueva_flag = "No borrar";
                     $res = $con->prepare($actualizar_cuenta);
                     $res->bindParam(1,$element["nombre_cuenta"]);
                     $res->bindParam(2,$element["no_cuenta"]);
                     $res->bindParam(3,$element["banco"]);
                     $res->bindParam(4,$element["rfc_banco"]);
-                    $res->bindParam(5,$element["id_bd"]);
+                    $res->bindParam(5,$nueva_flag);
+                    $res->bindParam(6,$element["id_bd"]);
                     $res->execute();
                     $res->closeCursor();
 
@@ -309,10 +308,11 @@
 
 
 
-   eliminarDatos($id_cliente, $con, "detalle_direccion");
-   eliminarDatos($id_cliente, $con, "detalle_correo");
-   eliminarDatos($id_cliente, $con, "detalle_cuenta_bancaria");
+     eliminarDatos($id_cliente, $con, "detalle_direccion");
+        eliminarDatos($id_cliente, $con, "detalle_correo");
+        eliminarDatos($id_cliente, $con, "detalle_cuenta_bancaria");
     
+
     print_r(1);
     //echo json_encode($_POST, JSON_UNESCAPED_UNICODE);
 

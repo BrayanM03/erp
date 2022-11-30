@@ -171,7 +171,7 @@ function actualizarCliente(id){
                                 </div>
                                 <div class="row">
                                     <div class="col-12 col-md-12 text-center">
-                                        <a href="editar-cliente.php?id_customer=${id_cliente}><div class="btn btn-success">Entendido</div></a>
+                                        <a href="editar-cliente.php?id_customer=${id_cliente}"><div class="btn btn-success">Entendido</div></a>
                                     </div>
                                 </div>
                             </div>
