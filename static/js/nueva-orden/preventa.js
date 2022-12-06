@@ -102,12 +102,14 @@ function setPage(indicador_pag, array_products, pagina_actual){
           let row = document.querySelector(`div[code="${timestamp}"]`)
           let precio_formateado = Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN'}).format(element.precio_total)
 
+        
+          element.imagen == "NA" ? ruta_img = "img/Productos/NA.jpg" : ruta_img = "img/Productos/P"+ element.id + "/P1.jpg";
           row.innerHTML += `
           <div class="col-12 col-md-3">
             <div class="product-item" onclick="elegirCant(${element.id}, ${element.stock})">
                 <div class="product-head">
                     <span class="precio" id="precio">${precio_formateado}</span>
-                    <img src="img/Productos/P${element.id}/P1.jpg" class="product-img" alt="imagen de producto">
+                    <img src="${ruta_img}" class="product-img" alt="imagen de producto">
                 </div>
                 
                 <div class="product-body">

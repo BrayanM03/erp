@@ -29,6 +29,7 @@ if ($_POST) {
 
         $response["status"] = true;
         $response["message"] = "Tu busqueda encontro resultados";
+        $row["descripcion"] = str_replace('"', '\"', $response["descripcion"]);
         $response["data"][] = $row;
     }
     }else{
