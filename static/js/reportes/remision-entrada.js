@@ -9,7 +9,7 @@
     //Llamada Ajax que traer datos del reporte
     $.ajax({
         type: "POST",
-        url: "../servidor/reportes/traer-datos-de-orden.php",
+        url: "../servidor/reportes/traer-datos-entradas.php",
         data: {id_orden: id_remision, tabla: "entradas", indicador: "id", tipo: "entrada", tabla_detalle: "detalle_entrada", indicador_detalle: "entrada_id"},
         dataType: "JSON",
         success: function (response) {

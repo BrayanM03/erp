@@ -111,10 +111,14 @@ function setContentBody(doc, response){
         ],
         startY:80,
         margin: { left: 8 },
-        tableWidth: 193
+        tableWidth: 193,
+        didDrawPage: (d) => {
+            console.log(d.cursor.y)
+             alturaPartidas  = d.cursor.y
+        },
       }))
 
-      let alturaPartidas = 8.5 * (bodyTable.length)
+      
 
       let subtotal = Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN'}).format(response.subtotal)
       let descuento = Intl.NumberFormat('es-MX',{style:'currency',currency:'MXN'}).format(response.descuento)
@@ -124,18 +128,18 @@ function setContentBody(doc, response){
 
 
       doc.setTextColor(107,107,107);
-      doc.text("Subtotal", 135, alturaPartidas + 94)
-      doc.text("Descuento", 135, alturaPartidas + 100)
-      doc.text("Impuesto "+tasa + "%", 135, alturaPartidas + 106)
-      doc.text("Total", 135, alturaPartidas + 114)
+      doc.text("Subtotal", 135, alturaPartidas + 10)
+      doc.text("Descuento", 135, alturaPartidas + 16)
+      doc.text("Impuesto "+tasa + "%", 135, alturaPartidas + 22)
+      doc.text("Total", 135, alturaPartidas + 29)
 
 
       doc.setTextColor(1,1,1);
-      doc.text(subtotal, 175, alturaPartidas + 94)
-      doc.text(descuento, 175, alturaPartidas + 100)
-      doc.text(impuesto, 175, alturaPartidas + 106)
-      doc.text(neto, 175, alturaPartidas + 114)
-      let puntoY1 = alturaPartidas + 150 //?Esto indica la altura Y en la que nos encontramos despues de cargar la tabla de partidas
+      doc.text(subtotal, 175, alturaPartidas + 10)
+      doc.text(descuento, 175, alturaPartidas + 16)
+      doc.text(impuesto, 175, alturaPartidas + 22)
+      doc.text(neto, 175, alturaPartidas + 29)
+      let puntoY1 = alturaPartidas + 33 //?Esto indica la altura Y en la que nos encontramos despues de cargar la tabla de partidas
       doc.text("Comentarios", 8, puntoY1-4)
       doc.setDrawColor(213,213,213);
       doc.roundedRect(8, puntoY1, 193, 25, 3, 3, 'S')

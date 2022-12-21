@@ -14,7 +14,7 @@ $("#cantidad").on("keyup change", ()=>{
 
 traerTotales()
 
-producto_buscador.select2({
+$("#producto").select2({
     placeholder: "Productos",
     theme: "bootstrap-5",
     height:"20px",
@@ -81,11 +81,17 @@ function formatResultProducts(repo){
     );
     }else{
       if(repo.status !== false){
+
+        if(repo.imagen == "NA"){
+         path_img = "img/Productos/NA.jpg"; 
+        }else{
+           path_img = "img/Productos/P" + repo.id + "/P1.jpg";
+        }
         var $container = $(
           `
           <div class="row">
             <div class="col-12 col-md-2">
-               <img src="img/Productos/P${repo.id}/P1.jpg" style="width:60px;border-radius:8px;">
+               <img src="${path_img}" style="width:60px;border-radius:8px;">
             </div>
             <div class="col-12 col-md-10 text-start">
               <div class="row">
@@ -328,5 +334,47 @@ function colocarDatosDePreciosEnLabel(){
   $("#precio_final_label").text(precio_final_f)
 }
 
+
+function cambiarAModoManual(){
+
+
+  area_buscador = $("#area-buscador-prod")
+
+  var elementType = document.getElementById("producto").tagName;
+
+  if(elementType == "SELECT"){
+    area_buscador.empty().append(` 
+  
+    <label for="producto">Buscar producto</label>
+              <div style="display: flex;">
+              <input type='text' class='form-field' style='width:80%' placeholder='Escribe un producto' id='producto'/>
+              <div class="btn btn-primary" style="margin-left:.5rem" onclick="cambiarAModoManual()" >
+                  <i class="fa-solid fa-repeat"></i>
+              </div>
+              </div>
+              `)
+  }else{
+
+
+    area_buscador.empty().append(` 
+  
+    <label for="producto">Buscar producto</label>
+              <div style="display: flex;">
+              <select type="text" class="form-field" id="producto" style="width: 80%;">
+              </select>
+              <div class="btn btn-primary" style="margin-left:.5rem" onclick="cambiarAModoManual()" >
+                  <i class="fa-solid fa-repeat"></i>
+              </div>
+              </div>
+              `)
+
+    seleccionarProducto()
+  }
+
+  
+
+
+
+}
 
  

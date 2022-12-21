@@ -54,10 +54,16 @@
     </div>
 
     <div class="row mb-3">
-        <div class="col-12 col-md-7">
+        <div class="col-12 col-md-7" id="area-buscador-prod" style="display: flex; flex-direction:column;">
             <label for="producto">Buscar producto</label>
-            <select type="text" class="form-field" id="producto">
-        </select>
+            <div style="display: flex;">
+            <select type="text" class="form-field" id="producto" style="width: 80%;">
+            </select>
+            <div class="btn btn-primary" style="margin-left:.5rem" onclick="cambiarAModoManual()" >
+                <i class="fa-solid fa-repeat"></i>
+            </div>
+            </div>
+            
         </div>
         <div class="col-6 col-md-3">
              <label class="cantidad">Cantidad</label>
